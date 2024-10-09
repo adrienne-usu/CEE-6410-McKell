@@ -1,5 +1,27 @@
-* GAMS Model for Reservoir Operation
-* Maximize economic benefits from hydropower and irrigation
+$ontext
+CEE 6410 - Water Resources Systems Analysis
+
+
+THE PROBLEM:
+
+A reservoir is designed to provide hydropower and water for irrigation.    Data are as fol-lows:
+
+Hydroppower and Irrigation Data
+Month   Inflow Units    Hydropower Benefits ($/unit)    Irrigation Benefits ($/unit)
+1          2            1.6                             1.0
+2          2            1.7                             1.2
+3          3            1.8                             1.9
+4          4            1.9                             2.0
+5          3            2.0                             2.2
+6          2            2.0                             2.2
+
+
+THE SOLUTION:
+Uses General Algebraic Modeling System to Solve this Linear Program
+
+Adrienne McKell
+adrienne.mckell@usu.edu
+$offtext
 
 SETS
    t months /1*6/          

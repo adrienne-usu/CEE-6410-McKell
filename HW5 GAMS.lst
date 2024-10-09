@@ -1,100 +1,120 @@
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/08/24 21:08:39 Page 1
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
 
-   1  * GAMS Model for Reservoir Operation
-   2  * Maximize economic benefits from hydropower and irrigation
-   3   
-   4  SETS
-   5     t months /1*6/
-   6     ;
-   7   
-   8  PARAMETERS
-   9     inflow(t)         Inflow units per month
-  10     hp_benefit(t)     Hydropower benefit per unit of water
-  11     irr_benefit(t)    Irrigation benefit per unit of water
-  12     turbine_capacity  Maximum water release through turbines (units per month) /4/
-  13     initial_storage   Initial reservoir storage (units) /5/
-  14     reservoir_capacity Maximum reservoir storage (units) /9/
-  15     ;
-  16   
-  17   
-  18  TABLE Data(t,*)   Data for each month
-  19     inflow  hp_benefit  irr_benefit
-  20  1   2       1.6         1.0
-  21  2   2       1.7         1.2
-  22  3   3       1.8         1.9
-  23  4   4       1.9         2.0
-  24  5   3       2.0         2.2
-  25  6   2       2.0         2.2
-  26  ;
-  27   
-  28  inflow(t) = Data(t,'inflow');
-  29  hp_benefit(t) = Data(t,'hp_benefit');
-  30  irr_benefit(t) = Data(t,'irr_benefit');
-  31   
-  32  * POSITIVE VARIABLES to enforce non-negativity
-  33  POSITIVE VARIABLES
-  34     storage(t)        * Reservoir storage at end of month t (units)
-  35     release_hp(t)     * Water release through hydropower turbines (units)
-  36     release_irr(t)    * Water release for irrigation (units)
-  37     spill(t)          * Water released through spillway
-  38     ;
+      CEE 6410 - Water Resources Systems Analysis
+       
+       
+      THE PROBLEM:
+       
+      A reservoir is designed to provide hydropower and water for irrigation.    Data are as fol-lows:
+       
+      Hydroppower and Irrigation Data
+      Month   Inflow Units    Hydropower Benefits ($/unit)    Irrigation Benefits ($/unit)
+      1          2            1.6                             1.0
+      2          2            1.7                             1.2
+      3          3            1.8                             1.9
+      4          4            1.9                             2.0
+      5          3            2.0                             2.2
+      6          2            2.0                             2.2
+       
+       
+      THE SOLUTION:
+      Uses General Algebraic Modeling System to Solve this Linear Program
+       
+      Adrienne McKell
+      adrienne.mckell@usu.edu
+  25   
+  26  SETS
+  27     t months /1*6/
+  28     ;
+  29   
+  30  PARAMETERS
+  31     inflow(t)         Inflow units per month
+  32     hp_benefit(t)     Hydropower benefit per unit of water
+  33     irr_benefit(t)    Irrigation benefit per unit of water
+  34     turbine_capacity  Maximum water release through turbines (units per month) /4/
+  35     initial_storage   Initial reservoir storage (units) /5/
+  36     reservoir_capacity Maximum reservoir storage (units) /9/
+  37     ;
+  38   
   39   
-  40  VARIABLES
-  41     objective         * Total economic benefits (dollars)
-  42     ;
-  43   
-  44  * EQUATIONS
-  45  EQUATIONS
-  46     objective_function       Objective to maximize economic benefits
-  47     mass_balance_1           Water balance for first month
-  48     mass_balance(t)          Water balance for subsequent months
-  49     storage_limit(t)         Reservoir storage limit
-  50     turbine_capacity_limit(t) Hydropower turbine release limit
-  51     end_storage_constraint   Ensure ending storage is greater or equal to initial
-  52     river_flow_constraint(t) River flow requirement (at least 1 unit of water left in river)
-  53     ;
-  54   
-  55  * OBJECTIVE FUNCTION
-  56  objective_function ..
-  57     objective =E= SUM(t, hp_benefit(t)*release_hp(t) + irr_benefit(t)*release_irr(t));
-  58   
-  59  * MASS BALANCE: Storage at time t=1
-  60  mass_balance_1 ..
-  61     storage('1') =E= initial_storage + inflow('1') - release_hp('1') - spill('1');
-  62   
-  63  * MASS BALANCE: Storage for t > 1
-  64  mass_balance(t)$(ord(t) > 1) ..
-  65     storage(t) =E= storage(t-1) + inflow(t) - release_hp(t) - spill(t);
-  66   
-  67  * STORAGE LIMIT: Reservoir cannot exceed its capacity
-  68  storage_limit(t)..
-  69     storage(t) =L= reservoir_capacity;
-  70   
-  71  * TURBINE CAPACITY LIMIT: Water release through turbines limited to 4 units/month
-  72  turbine_capacity_limit(t)..
-  73     release_hp(t) =L= turbine_capacity;
-  74   
-  75  * RIVER FLOW CONSTRAINT: At least 1 unit of water must remain in the river
-  76  river_flow_constraint(t) ..
-  77     spill(t)+ release_hp(t)-release_irr(t) =G= 1;
-  78   
-  79  * END STORAGE CONSTRAINT: Ensure ending storage is at least as large as initial storage
-  80  end_storage_constraint ..
-  81     storage('6') =G= initial_storage;
-  82   
-  83  * SOLVE
-  84  MODEL ReservoirOperation /ALL/;
-  85  SOLVE ReservoirOperation USING LP MAXIMIZING objective;
-  86   
+  40  TABLE Data(t,*)   Data for each month
+  41     inflow  hp_benefit  irr_benefit
+  42  1   2       1.6         1.0
+  43  2   2       1.7         1.2
+  44  3   3       1.8         1.9
+  45  4   4       1.9         2.0
+  46  5   3       2.0         2.2
+  47  6   2       2.0         2.2
+  48  ;
+  49   
+  50  inflow(t) = Data(t,'inflow');
+  51  hp_benefit(t) = Data(t,'hp_benefit');
+  52  irr_benefit(t) = Data(t,'irr_benefit');
+  53   
+  54  * POSITIVE VARIABLES to enforce non-negativity
+  55  POSITIVE VARIABLES
+  56     storage(t)        * Reservoir storage at end of month t (units)
+  57     release_hp(t)     * Water release through hydropower turbines (units)
+  58     release_irr(t)    * Water release for irrigation (units)
+  59     spill(t)          * Water released through spillway
+  60     ;
+  61   
+  62  VARIABLES
+  63     objective         * Total economic benefits (dollars)
+  64     ;
+  65   
+  66  * EQUATIONS
+  67  EQUATIONS
+  68     objective_function       Objective to maximize economic benefits
+  69     mass_balance_1           Water balance for first month
+  70     mass_balance(t)          Water balance for subsequent months
+  71     storage_limit(t)         Reservoir storage limit
+  72     turbine_capacity_limit(t) Hydropower turbine release limit
+  73     end_storage_constraint   Ensure ending storage is greater or equal to initial
+  74     river_flow_constraint(t) River flow requirement (at least 1 unit of water left in river)
+  75     ;
+  76   
+  77  * OBJECTIVE FUNCTION
+  78  objective_function ..
+  79     objective =E= SUM(t, hp_benefit(t)*release_hp(t) + irr_benefit(t)*release_irr(t));
+  80   
+  81  * MASS BALANCE: Storage at time t=1
+  82  mass_balance_1 ..
+  83     storage('1') =E= initial_storage + inflow('1') - release_hp('1') - spill('1');
+  84   
+  85  * MASS BALANCE: Storage for t > 1
+  86  mass_balance(t)$(ord(t) > 1) ..
+  87     storage(t) =E= storage(t-1) + inflow(t) - release_hp(t) - spill(t);
+  88   
+  89  * STORAGE LIMIT: Reservoir cannot exceed its capacity
+  90  storage_limit(t)..
+  91     storage(t) =L= reservoir_capacity;
+  92   
+  93  * TURBINE CAPACITY LIMIT: Water release through turbines limited to 4 units/month
+  94  turbine_capacity_limit(t)..
+  95     release_hp(t) =L= turbine_capacity;
+  96   
+  97  * RIVER FLOW CONSTRAINT: At least 1 unit of water must remain in the river
+  98  river_flow_constraint(t) ..
+  99     spill(t)+ release_hp(t)-release_irr(t) =G= 1;
+ 100   
+ 101  * END STORAGE CONSTRAINT: Ensure ending storage is at least as large as initial storage
+ 102  end_storage_constraint ..
+ 103     storage('6') =G= initial_storage;
+ 104   
+ 105  * SOLVE
+ 106  MODEL ReservoirOperation /ALL/;
+ 107  SOLVE ReservoirOperation USING LP MAXIMIZING objective;
+ 108   
 
 
 COMPILATION TIME     =        0.000 SECONDS      3 MB  47.6.0 c2de9d6d WEX-WEI
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/08/24 21:08:39 Page 2
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Equation Listing    SOLVE ReservoirOperation Using LP From line 85
+Equation Listing    SOLVE ReservoirOperation Using LP From line 107
 
 
 ---- objective_function  =E=  Objective to maximize economic benefits
@@ -155,9 +175,9 @@ river_flow_constraint(3)..  release_hp(3) - release_irr(3) + spill(3) =G= 1 ; (L
      
 REMAINING 3 ENTRIES SKIPPED
 
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/08/24 21:08:39 Page 3
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Column Listing      SOLVE ReservoirOperation Using LP From line 85
+Column Listing      SOLVE ReservoirOperation Using LP From line 107
 
 
 ---- storage  * Reservoir storage at end of month t (units)
@@ -251,9 +271,9 @@ objective
                 (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
         1       objective_function
 
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/08/24 21:08:39 Page 4
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 4
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Range Statistics    SOLVE ReservoirOperation Using LP From line 85
+Range Statistics    SOLVE ReservoirOperation Using LP From line 107
 
 
 RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
@@ -262,9 +282,9 @@ RHS       [min, max] : [ 1.000E+00, 9.000E+00] - Zero values observed as well
 Bound     [min, max] : [        NA,        NA] - Zero values observed as well
 Matrix    [min, max] : [ 1.000E+00, 2.200E+00]
 
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/08/24 21:08:39 Page 5
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 5
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Model Statistics    SOLVE ReservoirOperation Using LP From line 85
+Model Statistics    SOLVE ReservoirOperation Using LP From line 107
 
 
 MODEL STATISTICS
@@ -274,17 +294,17 @@ BLOCKS OF VARIABLES           5     SINGLE VARIABLES           25
 NON ZERO ELEMENTS            67
 
 
-GENERATION TIME      =        0.016 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/08/24 21:08:39 Page 6
+GENERATION TIME      =        0.015 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 6
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Solution Report     SOLVE ReservoirOperation Using LP From line 85
+Solution Report     SOLVE ReservoirOperation Using LP From line 107
 
 
                S O L V E      S U M M A R Y
 
      MODEL   ReservoirOperation   OBJECTIVE  objective
      TYPE    LP                   DIRECTION  MAXIMIZE
-     SOLVER  CPLEX                FROM LINE  85
+     SOLVER  CPLEX                FROM LINE  107
 
 **** SOLVER STATUS     1 Normal Completion
 **** MODEL STATUS      1 Optimal
@@ -431,5 +451,5 @@ USER: CEE 6410 Water Resources Systems Analysis      G240923|0002AO-GEN
 
 **** FILE SUMMARY
 
-Input      C:\Users\adrie\Dropbox\CEE 3410\HW 5\HW5 GAMS.gms
-Output     C:\Users\adrie\Dropbox\CEE 3410\HW 5\HW5 GAMS.lst
+Input      C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW5 GAMS.gms
+Output     C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW5 GAMS.lst
