@@ -1,0 +1,422 @@
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+      CEE 6410 - Water Resources Systems Analysis
+      Problem 2.3 from Bishop Et Al Text (https://digitalcommons.usu.edu/ecstatic_all/76/)
+       
+      THE PROBLEM:
+       
+      An irrigated farm can be planted in two crops:  hay and grains.  Data are as fol-lows:
+       
+      Seasonal Resource
+      Inputs or Profit        Crops        Resource
+      Availability
+                          Hay                  Grain                 RHS
+      Water (June)        2 ac-ft/plant         1 ac-ft/plant        14,000 ac-ft
+      Water (July)        1 ac-ft/plant         2 ac-ft/plant        18,000 ac-ft
+      Water (Aug)         1 ac-ft/plant         1 ac-ft/plant         6,000 ac-ft
+      Land                1 acre/plant          1 acre/plant         10,000 acre
+      Profit/plant        $100                  $120
+       
+                      Determine the optimal planting for the two crops.
+       
+      THE SOLUTION:
+      Uses General Algebraic Modeling System to Solve this Linear Program
+       
+      Adrienne McKell
+      adrienne.mckell@usu.edu
+  27   
+  28  * 1. DEFINE the SETS
+  29  SETS plnt crops growing /Hay, Grain/
+  30       res resources /WaterJune, WaterJuly, WaterAug, Land/;
+  31   
+  32  * 2. DEFINE input data
+  33  PARAMETERS
+  34     c(plnt) Objective function coefficients ($ per plant)
+  35           /Hay 100,
+  36           Grain 120/
+  37     b(res) Right hand constraint values (per resource)
+  38            /WaterJune 14000,
+  39             WaterJuly 18000
+  40             WaterAug 6000
+  41             Land  10000 /;
+  42   
+  43  TABLE A(plnt,res) Left hand side constraint coefficients
+  44                  WaterJune    WaterJuly     WaterAug    Land
+  45   Hay            2            1             1           1
+  46   Grain          1            2             0           1;
+  47   
+  48  * 3. DEFINE the variables
+  49  VARIABLES X(plnt) plants planted (Number)
+  50            VPROFIT  total profit ($)
+  51            Y(res)  value of resources used (units specific to variable)
+  52            VREDCOST total reduced cost ($);
+  53   
+  54   
+  55  * Non-negativity constraints
+  56  POSITIVE VARIABLES X,Y;
+  57   
+  58  * 4. COMBINE variables and data in equations
+  59  EQUATIONS
+  60     PROFIT_PRIMAL Total profit ($) and objective function value
+  61     RES_CONS_PRIMAL(res) Resource constraints
+  62     REDCOST_DUAL Reduced Cost ($) associated with using resources
+  63     RES_CONS_DUAL(plnt) Profit levels ;
+  64   
+  65  *Primal Equations
+  66  PROFIT_PRIMAL..                 VPROFIT =E= SUM(plnt,c(plnt)*X(plnt));
+  67  RES_CONS_PRIMAL(res) ..    SUM(plnt,A(plnt,res)*X(plnt)) =L= b(res);
+  68   
+  69  *Dual Equations
+  70  REDCOST_DUAL..                 VREDCOST =E= SUM(res,b(res)*Y(res));
+  71  RES_CONS_DUAL(plnt)..          sum(res,A(plnt,res)*Y(res)) =G= c(plnt);
+  72   
+  73  * 5. DEFINE the MODELS
+  74  *PRIMAL model
+  75  MODEL PLANT_PRIMAL /PROFIT_PRIMAL, RES_CONS_PRIMAL/;
+  76  *Set the options file to print out range of basis information
+  77  PLANT_PRIMAL.optfile = 1;
+  78   
+  79  *DUAL model
+  80  MODEL PLANT_DUAL /REDCOST_DUAL, RES_CONS_DUAL/;
+  81   
+  82  * 6. SOLVE the MODELS
+  83  * Solve the PLANTING PRIMAL model using a Linear Programming Solver (see File=>Options=>Solvers)
+  84  *     to maximize VPROFIT
+  85  SOLVE PLANT_PRIMAL USING LP MAXIMIZING VPROFIT;
+  86   
+  87  * Solve the PLANTING DUAL model using a Linear Programming Solver (see File=>Options=>Solvers)
+  88  *     to maximize VPROFIT
+  89  SOLVE PLANT_DUAL USING LP MINIMIZING VREDCOST;
+  90  *Order does not matter!
+  91   
+  92  * 6. CLick File menu => RUN (F9) or Solve icon and examine solution report in .LST file
+  93   
+  94  * 7 . Dump all data and results to GAMS proprietary file storage .gdx and to Excel
+  95  Execute_Unload "HW 6 HayGrain.gdx";
+  96  * Dump the gdx file to an Excel workbook
+  97  Execute "gdx2xls HW6HayGrain.gdx"
+  98  * To open the GDX file in the GAMS IDE, select File => Open.
+  99  * In the Open window, set Filetype to .gdx and select the file.
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE PLANT_PRIMAL Using LP From line 85
+
+
+---- PROFIT_PRIMAL  =E=  Total profit ($) and objective function value
+
+PROFIT_PRIMAL..  - 100*X(Hay) - 120*X(Grain) + VPROFIT =E= 0 ; (LHS = 0)
+     
+
+---- RES_CONS_PRIMAL  =L=  Resource constraints
+
+RES_CONS_PRIMAL(WaterJune)..  2*X(Hay) + X(Grain) =L= 14000 ; (LHS = 0)
+     
+RES_CONS_PRIMAL(WaterJuly)..  X(Hay) + 2*X(Grain) =L= 18000 ; (LHS = 0)
+     
+RES_CONS_PRIMAL(WaterAug)..  X(Hay) =L= 6000 ; (LHS = 0)
+     
+REMAINING ENTRY SKIPPED
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE PLANT_PRIMAL Using LP From line 85
+
+
+---- X  plants planted (Number)
+
+X(Hay)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+     -100       PROFIT_PRIMAL
+        2       RES_CONS_PRIMAL(WaterJune)
+        1       RES_CONS_PRIMAL(WaterJuly)
+        1       RES_CONS_PRIMAL(WaterAug)
+        1       RES_CONS_PRIMAL(Land)
+
+X(Grain)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+     -120       PROFIT_PRIMAL
+        1       RES_CONS_PRIMAL(WaterJune)
+        2       RES_CONS_PRIMAL(WaterJuly)
+        1       RES_CONS_PRIMAL(Land)
+
+
+---- VPROFIT  total profit ($)
+
+VPROFIT
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       PROFIT_PRIMAL
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Range Statistics    SOLVE PLANT_PRIMAL Using LP From line 85
+
+
+RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
+
+RHS       [min, max] : [ 6.000E+03, 1.800E+04] - Zero values observed as well
+Bound     [min, max] : [        NA,        NA] - Zero values observed as well
+Matrix    [min, max] : [ 1.000E+00, 1.200E+02]
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE PLANT_PRIMAL Using LP From line 85
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           2     SINGLE EQUATIONS            5
+BLOCKS OF VARIABLES           2     SINGLE VARIABLES            3
+NON ZERO ELEMENTS            10
+
+
+GENERATION TIME      =        0.016 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE PLANT_PRIMAL Using LP From line 85
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   PLANT_PRIMAL        OBJECTIVE  VPROFIT
+     TYPE    LP                  DIRECTION  MAXIMIZE
+     SOLVER  CPLEX               FROM LINE  85
+
+**** SOLVER STATUS     1 Normal Completion
+**** MODEL STATUS      1 Optimal
+**** OBJECTIVE VALUE          1160000.0000
+
+ RESOURCE USAGE, LIMIT          0.000 10000000000.000
+ ITERATION COUNT, LIMIT         3    2147483647
+*** This solver runs with a community license.
+
+Reading parameter(s) from "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\cplex.opt"
+>>  objrng all
+>>  rhsrng all
+Finished reading from "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\cplex.opt"
+
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+
+--- LP status (1): optimal.
+--- Cplex Time: 0.00sec (det. 0.01 ticks)
+
+--- Start ranging / sensitivity analysis...
+--- Right-hand-side ranging...
+
+EQUATION NAME                            LOWER           CURRENT             UPPER
+-------------                            -----           -------             -----
+PROFIT_PRIMAL                             -INF                NA              +INF   =C
+RES_CONS_PRIMAL(WaterJune)               12000             14000              +INF   =C
+RES_CONS_PRIMAL(WaterJuly)               16000             18000             20000   =C
+RES_CONS_PRIMAL(WaterAug)                 2000              6000              +INF   =C
+RES_CONS_PRIMAL(Land)                     9000             10000           10666.7   =C
+
+--- Objective ranging...
+
+VARIABLE NAME                            LOWER           CURRENT             UPPER
+-------------                            -----           -------             -----
+X(Hay)                                      60               100               120   =C
+X(Grain)                                   100               120               200   =C
+VPROFIT                                   -INF                NA              +INF   =C
+
+
+Optimal solution found
+Objective:      1160000.000000
+
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU PROFIT_PR~          .              .              .             1.0000      
+
+  PROFIT_PRIMAL  Total profit ($) and objective function value
+
+---- EQU RES_CONS_PRIMAL  Resource constraints
+
+                 LOWER          LEVEL          UPPER         MARGINAL
+
+WaterJune        -INF        12000.0000     14000.0000          .          
+WaterJuly        -INF        18000.0000     18000.0000        20.0000      
+WaterAug         -INF         2000.0000      6000.0000          .          
+Land             -INF        10000.0000     10000.0000        80.0000      
+
+---- VAR X  plants planted (Number)
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+Hay            .          2000.0000        +INF             .          
+Grain          .          8000.0000        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR VPROFIT           -INF      1160000.0000        +INF             .          
+
+  VPROFIT  total profit ($)
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE PLANT_DUAL Using LP From line 89
+
+
+---- REDCOST_DUAL  =E=  Reduced Cost ($) associated with using resources
+
+REDCOST_DUAL..  - 14000*Y(WaterJune) - 18000*Y(WaterJuly) - 6000*Y(WaterAug) - 10000*Y(Land) + VREDCOST =E= 0 ; (LHS = 0)
+     
+
+---- RES_CONS_DUAL  =G=  Profit levels
+
+RES_CONS_DUAL(Hay)..  2*Y(WaterJune) + Y(WaterJuly) + Y(WaterAug) + Y(Land) =G= 100 ; (LHS = 0, INFES = 100 ****)
+     
+RES_CONS_DUAL(Grain)..  Y(WaterJune) + 2*Y(WaterJuly) + Y(Land) =G= 120 ; (LHS = 0, INFES = 120 ****)
+     
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 8
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE PLANT_DUAL Using LP From line 89
+
+
+---- Y  value of resources used (units specific to variable)
+
+Y(WaterJune)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+   -14000       REDCOST_DUAL
+        2       RES_CONS_DUAL(Hay)
+        1       RES_CONS_DUAL(Grain)
+
+Y(WaterJuly)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+   -18000       REDCOST_DUAL
+        1       RES_CONS_DUAL(Hay)
+        2       RES_CONS_DUAL(Grain)
+
+Y(WaterAug)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+    -6000       REDCOST_DUAL
+        1       RES_CONS_DUAL(Hay)
+
+REMAINING ENTRY SKIPPED
+
+---- VREDCOST  total reduced cost ($)
+
+VREDCOST
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       REDCOST_DUAL
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 9
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Range Statistics    SOLVE PLANT_DUAL Using LP From line 89
+
+
+RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
+
+RHS       [min, max] : [ 1.000E+02, 1.200E+02] - Zero values observed as well
+Bound     [min, max] : [        NA,        NA] - Zero values observed as well
+Matrix    [min, max] : [ 1.000E+00, 1.800E+04]
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 10
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE PLANT_DUAL Using LP From line 89
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           2     SINGLE EQUATIONS            3
+BLOCKS OF VARIABLES           2     SINGLE VARIABLES            5
+NON ZERO ELEMENTS            12
+
+
+GENERATION TIME      =        0.000 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 11
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE PLANT_DUAL Using LP From line 89
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   PLANT_DUAL          OBJECTIVE  VREDCOST
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  89
+
+**** SOLVER STATUS     1 Normal Completion
+**** MODEL STATUS      1 Optimal
+**** OBJECTIVE VALUE          1160000.0000
+
+ RESOURCE USAGE, LIMIT          0.000 10000000000.000
+ ITERATION COUNT, LIMIT         2    2147483647
+*** This solver runs with a community license.
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+
+--- LP status (1): optimal.
+--- Cplex Time: 0.00sec (det. 0.00 ticks)
+
+
+Optimal solution found
+Objective:      1160000.000000
+
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU REDCOST_D~          .              .              .             1.0000      
+
+  REDCOST_DUAL  Reduced Cost ($) associated with using resources
+
+---- EQU RES_CONS_DUAL  Profit levels
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+Hay         100.0000       100.0000        +INF         2000.0000      
+Grain       120.0000       120.0000        +INF         8000.0000      
+
+---- VAR Y  value of resources used (units specific to variable)
+
+                 LOWER          LEVEL          UPPER         MARGINAL
+
+WaterJune          .              .            +INF         2000.0000      
+WaterJuly          .            20.0000        +INF             .          
+WaterAug           .              .            +INF         4000.0000      
+Land               .            80.0000        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR VREDCOST          -INF      1160000.0000        +INF             .          
+
+  VREDCOST  total reduced cost ($)
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 13:13:42 Page 12
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.359 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+
+
+USER: CEE 6410 Water Resources Systems Analysis      G240923|0002AO-GEN
+      Utah State University, Utah Water Research Laboratory     DCE3763
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 HayGrain.gms
+Output     C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 HayGrain.lst
