@@ -1,0 +1,28 @@
+B 3 C o m p i l a t i o n
+B 108 Equation Listing    SOLVE PLANT_PRIMAL Using LP From line 85
+D 111 PROFIT_PRIMAL
+D 116 RES_CONS_PRIMAL
+B 128 Column Listing      SOLVE PLANT_PRIMAL Using LP From line 85
+E 131 X
+E 149 VPROFIT
+B 157 Range Statistics    SOLVE PLANT_PRIMAL Using LP From line 85
+B 168 Model Statistics    SOLVE PLANT_PRIMAL Using LP From line 85
+B 181 Solution Report     SOLVE PLANT_PRIMAL Using LP From line 85
+F 239 PROFIT_PRIMAL
+F 243 RES_CONS_PRIMAL
+G 252 X
+G 261 VPROFIT
+B 271 Equation Listing    SOLVE PLANT_DUAL Using LP From line 89
+D 274 REDCOST_DUAL
+D 279 RES_CONS_DUAL
+B 287 Column Listing      SOLVE PLANT_DUAL Using LP From line 89
+E 290 Y
+E 311 VREDCOST
+B 319 Range Statistics    SOLVE PLANT_DUAL Using LP From line 89
+B 330 Model Statistics    SOLVE PLANT_DUAL Using LP From line 89
+B 343 Solution Report     SOLVE PLANT_DUAL Using LP From line 89
+F 376 REDCOST_DUAL
+F 380 RES_CONS_DUAL
+G 387 Y
+G 398 VREDCOST
+B 408 E x e c u t i o n

@@ -104,5 +104,6 @@ end_storage_constraint ..
 
 * SOLVE
 MODEL ReservoirOperation /ALL/;
+ReservoirOperation.optfile = 1;
 SOLVE ReservoirOperation USING LP MAXIMIZING objective;
 

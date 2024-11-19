@@ -1,0 +1,445 @@
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 15:42:16 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  * 1. DEFINE the SETS
+   2   
+   3   SETS
+   4   src  water supply sources /res "diversion from reservoir", pum "pump from river"/
+   5   lev  source size /lev0 "none", lev1 "small", lev2 "big"/
+   6   t    time in seasons /s1*s2/;
+   7   
+   8   
+   9  * 2. DEFINE the variables
+  10  VARIABLES
+  11   I(src,lev) binary decision to build or do prject from source src (1=yes 0=no)
+  12   X(src,t)   volume of water provided by source src in time t (ac-ft per season)
+  13   REL(t)     Reservoir release to river in time t (ac-ft per season)
+  14   STOR(t)    Reservoir storage volume in time t (ac-ft)
+  15   AREA       Area irrigated (ac)
+  16   TBEN       Total net benefits that are revenus minus capital and operating costs ($);
+  17   
+  18  BINARY VARIABLES I;
+  19   
+  20  * Non-negativity constraints
+  21  POSITIVE VARIABLES X, REL, STOR;
+  22   
+  23   
+  24  * 3. DEFINE input data
+  25    TABLE CapCost(src,lev) capital cost ($ to build)
+  26              lev1  lev2
+  27       res    6000  10000
+  28       pum    8000        ;
+  29  *leaving out r0 keeps the default entry of zero
+  30   
+  31  PARAMETER OpCost(src) operating cost ($ per ac-ft)
+  32         /res    0,
+  33         pum    20/ ;
+  34   
+  35  TABLE MaxCapacity(src,lev) Maximum capacity of source when built (ac-ft per season)
+  36             lev1  lev2
+  37       res    300   700;
+  38   
+  39  *Define the maximum capacity programatically for the pump (covert from daily to seasonal)
+  40  * card(t) counts the number of elements in set t
+  41   
+  42  MaxCapacity("pum","lev1") = 2.2*365/card(t);
+  43   
+  44  PARAMETERS
+  45  RiverInflow(t) River inflow in time t (ac-ft)/s1 600, s2 200/
+  46  Demand(t) Irrigation demand in time t (ac-ft per acre)/s1 1.0, s2 3.0/
+  47  InitStor Initial reservoir storage (fraction of full capacity) /0.5/
+  48  BaseFlow River baseflow below the reservoir (ac-ft) /2/
+  49  Revenue  Revenue from irrigation ($ per year per acre) /300/;
+  50   
+  51  *Convert daily baseflow to seasonal baseflow
+  52  BaseFlow = BaseFlow*365/card(t);
+  53   
+  54   
+  55  * 4. COMBINE variables and data in equations
+  56  EQUATIONS
+  57  NetBen          Revenues minus capital and operating costs ($) and objective function value
+  58  AreaToSupply(t) Area to supply with deliveries (ac)
+  59  PumpCapacity(t) Pumping within capacity in each time step (ac-ft per season)
+  60  ResCapacity(t)  Reservoir storage within capacity in each time step (ac-ft)
+  61  MutExclus(src)  Can only implement one project size (#)
+  62  RivMassBal(t)   River mass balance downstream of reservoir in each timestep (ac-ft)
+  63  ResMassBal(t)   Reservoir mass balance in each time step (ac-ft);
+  64   
+  65   
+  66  NetBen..                 TBEN =E= Revenue*AREA - SUM(src,SUM(lev,CapCost(src,lev)*I(src,lev)) + SUM(t,OpCost(src)*X(src,t)));
+  67  AreaToSupply(t)..        AREA =L= SUM(src,X(src,t))/Demand(t);
+  68  PumpCapacity(t)..        X("pum",t) =L= sum(lev,MaxCapacity("pum",lev)*I("pum",lev));
+  69  ResCapacity(t)..         STOR(t) =L= sum(lev,MaxCapacity("res",lev)*I("res",lev));
+  70  RivMassBal(t)..          X("pum",t) =L= REL(t) + BaseFlow;
+  71  MutExclus(src)..         sum(lev,I(src,lev)) =L= 1;
+  72   
+  73  *Reservoir mass balance
+  74  *In first time step, previous storage is the initial storage (a fraction of the capacity).
+  75  *In subsequent time steps, prevous storage is the prior storage variable (t-1).
+  76  *Differentiate the cases using the $ operator $(ord(t) eq 1) => first time step
+  77  *                                             $(ord(t) gt 1) => subsequent time steps
+  78  ResMassBal(t)..   STOR(t) =E= RiverInflow(t) - REL(t) - X("res",t) +
+  79  *                    Initial storage = fraction of reservoir capacity to include for equation for first time step
+  80  InitStor*sum(lev,MaxCapacity("res",lev)*I("res",lev))$(ord(t) eq 1)  +
+  81  *                    Prior storage to include for equations for subsequent time steps (t-1)
+  82  STOR(t-1)$(ord(t) gt 1);
+  83   
+  84  * 5. DEFINE the MODEL from the EQUATIONS
+  85  MODEL ResDesign /ALL/;
+  86   
+  87  * 6. Solve the Model as an LP (relaxed IP)
+  88  SOLVE ResDesign USING MIP Maximizing TBEN;
+  89   
+  90  DISPLAY X.L, I.L, TBEN.L;
+  91   
+  92  * Dump all input data and results to a GAMS gdx file
+  93  Execute_Unload "Ex7-1.gdx";
+  94  * Dump the gdx file to an Excel workbook
+  95   Execute "gdx2xls Ex7-1.gdx"
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 15:42:16 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE ResDesign Using MIP From line 88
+
+
+---- NetBen  =E=  Revenues minus capital and operating costs ($) and objective function value
+
+NetBen..  6000*I(res,lev1) + 10000*I(res,lev2) + 8000*I(pum,lev1) + 20*X(pum,s1) + 20*X(pum,s2) - 300*AREA + TBEN =E= 0 ; (LHS = 0)
+     
+
+---- AreaToSupply  =L=  Area to supply with deliveries (ac)
+
+AreaToSupply(s1)..  - X(res,s1) - X(pum,s1) + AREA =L= 0 ; (LHS = 0)
+     
+AreaToSupply(s2)..  - 0.333333333333333*X(res,s2) - 0.333333333333333*X(pum,s2) + AREA =L= 0 ; (LHS = 0)
+     
+
+---- PumpCapacity  =L=  Pumping within capacity in each time step (ac-ft per season)
+
+PumpCapacity(s1)..  - 401.5*I(pum,lev1) + X(pum,s1) =L= 0 ; (LHS = 0)
+     
+PumpCapacity(s2)..  - 401.5*I(pum,lev1) + X(pum,s2) =L= 0 ; (LHS = 0)
+     
+
+---- ResCapacity  =L=  Reservoir storage within capacity in each time step (ac-ft)
+
+ResCapacity(s1)..  - 300*I(res,lev1) - 700*I(res,lev2) + STOR(s1) =L= 0 ; (LHS = 0)
+     
+ResCapacity(s2)..  - 300*I(res,lev1) - 700*I(res,lev2) + STOR(s2) =L= 0 ; (LHS = 0)
+     
+
+---- MutExclus  =L=  Can only implement one project size (#)
+
+MutExclus(res)..  I(res,lev0) + I(res,lev1) + I(res,lev2) =L= 1 ; (LHS = 0)
+     
+MutExclus(pum)..  I(pum,lev0) + I(pum,lev1) + I(pum,lev2) =L= 1 ; (LHS = 0)
+     
+
+---- RivMassBal  =L=  River mass balance downstream of reservoir in each timestep (ac-ft)
+
+RivMassBal(s1)..  X(pum,s1) - REL(s1) =L= 365 ; (LHS = 0)
+     
+RivMassBal(s2)..  X(pum,s2) - REL(s2) =L= 365 ; (LHS = 0)
+     
+
+---- ResMassBal  =E=  Reservoir mass balance in each time step (ac-ft)
+
+ResMassBal(s1)..  - 150*I(res,lev1) - 350*I(res,lev2) + X(res,s1) + REL(s1) + STOR(s1) =E= 600 ; (LHS = 0, INFES = 600 ****)
+     
+ResMassBal(s2)..  X(res,s2) + REL(s2) - STOR(s1) + STOR(s2) =E= 200 ; (LHS = 0, INFES = 200 ****)
+     
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 15:42:16 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE ResDesign Using MIP From line 88
+
+
+---- I  binary decision to build or do prject from source src (1=yes 0=no)
+
+I(res,lev0)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+        1       MutExclus(res)
+
+I(res,lev1)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+     6000       NetBen
+     -300       ResCapacity(s1)
+     -300       ResCapacity(s2)
+        1       MutExclus(res)
+     -150       ResMassBal(s1)
+
+I(res,lev2)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+    10000       NetBen
+     -700       ResCapacity(s1)
+     -700       ResCapacity(s2)
+        1       MutExclus(res)
+     -350       ResMassBal(s1)
+
+REMAINING 3 ENTRIES SKIPPED
+
+---- X  volume of water provided by source src in time t (ac-ft per season)
+
+X(res,s1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       AreaToSupply(s1)
+        1       ResMassBal(s1)
+
+X(res,s2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.3333  AreaToSupply(s2)
+        1       ResMassBal(s2)
+
+X(pum,s1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       20       NetBen
+       -1       AreaToSupply(s1)
+        1       PumpCapacity(s1)
+        1       RivMassBal(s1)
+
+REMAINING ENTRY SKIPPED
+
+---- REL  Reservoir release to river in time t (ac-ft per season)
+
+REL(s1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       RivMassBal(s1)
+        1       ResMassBal(s1)
+
+REL(s2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       RivMassBal(s2)
+        1       ResMassBal(s2)
+
+
+---- STOR  Reservoir storage volume in time t (ac-ft)
+
+STOR(s1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       ResCapacity(s1)
+        1       ResMassBal(s1)
+       -1       ResMassBal(s2)
+
+STOR(s2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       ResCapacity(s2)
+        1       ResMassBal(s2)
+
+
+---- AREA  Area irrigated (ac)
+
+AREA
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+     -300       NetBen
+        1       AreaToSupply(s1)
+        1       AreaToSupply(s2)
+
+
+---- TBEN  Total net benefits that are revenus minus capital and operating costs ($)
+
+TBEN
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       NetBen
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 15:42:16 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Range Statistics    SOLVE ResDesign Using MIP From line 88
+
+
+RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
+
+RHS       [min, max] : [ 1.000E+00, 6.000E+02] - Zero values observed as well
+Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
+Matrix    [min, max] : [ 3.333E-01, 1.000E+04]
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 15:42:16 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE ResDesign Using MIP From line 88
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           7     SINGLE EQUATIONS           13
+BLOCKS OF VARIABLES           6     SINGLE VARIABLES           16
+NON ZERO ELEMENTS            42     DISCRETE VARIABLES          6
+
+
+GENERATION TIME      =        0.015 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 15:42:16 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE ResDesign Using MIP From line 88
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   ResDesign           OBJECTIVE  TBEN
+     TYPE    MIP                 DIRECTION  MAXIMIZE
+     SOLVER  CPLEX               FROM LINE  88
+
+**** SOLVER STATUS     1 Normal Completion
+**** MODEL STATUS      1 Optimal
+**** OBJECTIVE VALUE            97766.6667
+
+ RESOURCE USAGE, LIMIT          0.031 10000000000.000
+ ITERATION COUNT, LIMIT         7    2147483647
+*** This solver runs with a community license.
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+
+--- MIP status (101): integer optimal solution.
+--- Cplex Time: 0.03sec (det. 0.11 ticks)
+
+--- Returning a primal only solution to GAMS (marginals all set to NA).
+--- Fixing integer variables and solving final LP...
+
+
+--- Fixed MIP status (1): optimal.
+--- Cplex Time: 0.00sec (det. 0.02 ticks)
+
+
+Proven optimal solution
+MIP Solution:        97766.666667    (7 iterations, 0 nodes)
+Final Solve:         97766.666667    (5 iterations)
+
+Best possible:       97766.666667
+Absolute gap:            0.000000
+Relative gap:            0.000000
+
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU NetBen              .              .              .             1.0000      
+
+  NetBen  Revenues minus capital and operating costs ($) and objective function value
+
+---- EQU AreaToSupply  Area to supply with deliveries (ac)
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+s1        -INF             .              .            20.0000      
+s2        -INF             .              .           280.0000      
+
+---- EQU PumpCapacity  Pumping within capacity in each time step (ac-ft per season)
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+s1        -INF         -229.8333          .              .          
+s2        -INF          -36.5000          .              .          
+
+---- EQU ResCapacity  Reservoir storage within capacity in each time step (ac-ft)
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+s1        -INF             .              .            73.3333      
+s2        -INF         -700.0000          .              .          
+
+---- EQU MutExclus  Can only implement one project size (#)
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+res        -INF            1.0000         1.0000          .          
+pum        -INF            1.0000         1.0000          .          
+
+---- EQU RivMassBal  River mass balance downstream of reservoir in each timestep (ac-ft)
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+s1        -INF          171.6667       365.0000          .          
+s2        -INF          365.0000       365.0000        73.3333      
+
+---- EQU ResMassBal  Reservoir mass balance in each time step (ac-ft)
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+s1       600.0000       600.0000       600.0000        20.0000      
+s2       200.0000       200.0000       200.0000        93.3333      
+
+---- VAR I  binary decision to build or do prject from source src (1=yes 0=no)
+
+                LOWER          LEVEL          UPPER         MARGINAL
+
+res.lev0          .              .             1.0000         EPS         
+res.lev1          .              .             1.0000     19000.0000      
+res.lev2          .             1.0000         1.0000     48333.3333      
+pum.lev0          .              .             1.0000         EPS         
+pum.lev1          .             1.0000         1.0000     -8000.0000      
+pum.lev2          .              .             1.0000         EPS         
+
+---- VAR X  volume of water provided by source src in time t (ac-ft per season)
+
+              LOWER          LEVEL          UPPER         MARGINAL
+
+res.s1          .           250.0000        +INF             .          
+res.s2          .           900.0000        +INF             .          
+pum.s1          .           171.6667        +INF             .          
+pum.s2          .           365.0000        +INF             .          
+
+---- VAR REL  Reservoir release to river in time t (ac-ft per season)
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+s1          .              .            +INF          -20.0000      
+s2          .              .            +INF          -20.0000      
+
+---- VAR STOR  Reservoir storage volume in time t (ac-ft)
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+s1          .           700.0000        +INF             .          
+s2          .              .            +INF          -93.3333      
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR AREA              -INF          421.6667        +INF             .          
+---- VAR TBEN              -INF        97766.6667        +INF             .          
+
+  AREA  Area irrigated (ac)
+  TBEN  Total net benefits that are revenus minus capital and operating costs ($)
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/14/24 15:42:16 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+----     90 VARIABLE X.L  volume of water provided by source src in time t (ac-ft per season)
+
+             s1          s2
+
+res     250.000     900.000
+pum     171.667     365.000
+
+
+----     90 VARIABLE I.L  binary decision to build or do prject from source src (1=yes 0=no)
+
+           lev1        lev2
+
+res                   1.000
+pum       1.000
+
+
+----     90 VARIABLE TBEN.L                =    97766.667  Total net benefits that are revenus minus capital and operating costs ($)
+
+
+EXECUTION TIME       =        3.906 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+
+
+USER: CEE 6410 Water Resources Systems Analysis      G240923|0002AO-GEN
+      Utah State University, Utah Water Research Laboratory     DCE3763
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+Output     C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.lst

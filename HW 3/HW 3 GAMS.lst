@@ -1,0 +1,231 @@
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 09/27/24 11:27:07 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+      CEE 6410 - Water Resources Systems Analysis
+      Problem 2.3 from Bishop Et Al Text (https://digitalcommons.usu.edu/ecstatic_all/76/)
+       
+      THE PROBLEM:
+       
+      An irrigated farm can be planted in two crops:  hay and grains.  Data are as fol-lows:
+       
+      Seasonal Resource
+      Inputs or Profit        Crops        Resource
+      Availability
+                          Hay                  Grain                 RHS
+      Water (June)        2 ac-ft/plant         1 ac-ft/plant        14,000 ac-ft
+      Water (July)        1 ac-ft/plant         2 ac-ft/plant        18,000 ac-ft
+      Water (Aug)         1 ac-ft/plant         1 ac-ft/plant         6,000 ac-ft
+      Land                1 acre/plant          1 acre/plant         10,000 acre
+      Profit/plant        $100                  $120
+       
+                      Determine the optimal planting for the two crops.
+       
+      THE SOLUTION:
+      Uses General Algebraic Modeling System to Solve this Linear Program
+       
+      Adrienne McKell
+      adrienne.mckell@usu.edu
+  27   
+  28  * 1. DEFINE the SETS
+  29  SETS plnt crops growing /Hay, Grain/
+  30       res resources /WaterJune, WaterJuly, WaterAug, Land/;
+  31   
+  32  * 2. DEFINE input data
+  33  PARAMETERS
+  34     c(plnt) Objective function coefficients ($ per plant)
+  35           /Hay 100,
+  36           Grain 150/
+  37     b(res) Right hand constraint values (per resource)
+  38            /WaterJune 14000,
+  39             WaterJuly 18000
+  40             WaterAug 6000
+  41             Land  10000 /;
+  42   
+  43  TABLE A(plnt,res) Left hand side constraint coefficients
+  44                  WaterJune    WaterJuly     WaterAug    Land
+  45   Hay            2            1             1           1
+  46   Grain          1            2             0           1;
+  47   
+  48  * 3. DEFINE the variables
+  49  VARIABLES X(plnt) plants planted (Number)
+  50            VPROFIT  total profit ($);
+  51   
+  52  * Non-negativity constraints
+  53  POSITIVE VARIABLES X;
+  54   
+  55  * 4. COMBINE variables and data in equations
+  56  EQUATIONS
+  57     PROFIT Total profit ($) and objective function value
+  58     RES_CONSTRAIN(res) Resource Constraints;
+  59   
+  60  PROFIT..                 VPROFIT =E= SUM(plnt,c(plnt)*X(plnt));
+  61  RES_CONSTRAIN(res) ..    SUM(plnt,A(plnt,res)*X(plnt)) =L= b(res);
+  62   
+  63  * 5. DEFINE the MODEL from the EQUATIONS
+  64  MODEL PLANTING /PROFIT, RES_CONSTRAIN/;
+  65  *Altnerative way to write (include all previously defined equations)
+  66  *MODEL PLANTING /ALL/;
+  67   
+  68  * 6. SOLVE the MODEL
+  69  * Solve the PLANTING model using a Linear Programming Solver (see File=>Options=>Solvers)
+  70  *     to maximize VPROFIT
+  71  SOLVE PLANTING USING LP MAXIMIZING VPROFIT;
+  72   
+  73  * 6. CLick File menu => RUN (F9) or Solve icon and examine solution report in .LST file
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 09/27/24 11:27:07 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE PLANTING Using LP From line 71
+
+
+---- PROFIT  =E=  Total profit ($) and objective function value
+
+PROFIT..  - 100*X(Hay) - 150*X(Grain) + VPROFIT =E= 0 ; (LHS = 0)
+     
+
+---- RES_CONSTRAIN  =L=  Resource Constraints
+
+RES_CONSTRAIN(WaterJune)..  2*X(Hay) + X(Grain) =L= 14000 ; (LHS = 0)
+     
+RES_CONSTRAIN(WaterJuly)..  X(Hay) + 2*X(Grain) =L= 18000 ; (LHS = 0)
+     
+RES_CONSTRAIN(WaterAug)..  X(Hay) =L= 6000 ; (LHS = 0)
+     
+REMAINING ENTRY SKIPPED
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 09/27/24 11:27:07 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE PLANTING Using LP From line 71
+
+
+---- X  plants planted (Number)
+
+X(Hay)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+     -100       PROFIT
+        2       RES_CONSTRAIN(WaterJune)
+        1       RES_CONSTRAIN(WaterJuly)
+        1       RES_CONSTRAIN(WaterAug)
+        1       RES_CONSTRAIN(Land)
+
+X(Grain)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+     -150       PROFIT
+        1       RES_CONSTRAIN(WaterJune)
+        2       RES_CONSTRAIN(WaterJuly)
+        1       RES_CONSTRAIN(Land)
+
+
+---- VPROFIT  total profit ($)
+
+VPROFIT
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       PROFIT
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 09/27/24 11:27:07 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Range Statistics    SOLVE PLANTING Using LP From line 71
+
+
+RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
+
+RHS       [min, max] : [ 6.000E+03, 1.800E+04] - Zero values observed as well
+Bound     [min, max] : [        NA,        NA] - Zero values observed as well
+Matrix    [min, max] : [ 1.000E+00, 1.500E+02]
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 09/27/24 11:27:07 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE PLANTING Using LP From line 71
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           2     SINGLE EQUATIONS            5
+BLOCKS OF VARIABLES           2     SINGLE VARIABLES            3
+NON ZERO ELEMENTS            10
+
+
+GENERATION TIME      =        0.016 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 09/27/24 11:27:07 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE PLANTING Using LP From line 71
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   PLANTING            OBJECTIVE  VPROFIT
+     TYPE    LP                  DIRECTION  MAXIMIZE
+     SOLVER  CPLEX               FROM LINE  71
+
+**** SOLVER STATUS     1 Normal Completion
+**** MODEL STATUS      1 Optimal
+**** OBJECTIVE VALUE          1400000.0000
+
+ RESOURCE USAGE, LIMIT          0.000 10000000000.000
+ ITERATION COUNT, LIMIT         3    2147483647
+*** This solver runs with a community license.
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+
+--- LP status (1): optimal.
+--- Cplex Time: 0.00sec (det. 0.01 ticks)
+
+
+Optimal solution found
+Objective:      1400000.000000
+
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU PROFIT              .              .              .             1.0000      
+
+  PROFIT  Total profit ($) and objective function value
+
+---- EQU RES_CONSTRAIN  Resource Constraints
+
+                 LOWER          LEVEL          UPPER         MARGINAL
+
+WaterJune        -INF        12000.0000     14000.0000          .          
+WaterJuly        -INF        18000.0000     18000.0000        50.0000      
+WaterAug         -INF         2000.0000      6000.0000          .          
+Land             -INF        10000.0000     10000.0000        50.0000      
+
+---- VAR X  plants planted (Number)
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+Hay            .          2000.0000        +INF             .          
+Grain          .          8000.0000        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR VPROFIT           -INF      1400000.0000        +INF             .          
+
+  VPROFIT  total profit ($)
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+
+
+EXECUTION TIME       =        0.063 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+
+
+USER: CEE 6410 Water Resources Systems Analysis      G240923|0002AO-GEN
+      Utah State University, Utah Water Research Laboratory     DCE3763
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\adrie\Downloads\HW 3 GAMS.gms
+Output     C:\Users\adrie\Downloads\HW 3 GAMS.lst

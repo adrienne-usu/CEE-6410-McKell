@@ -1,0 +1,511 @@
+--- Job HW 6 ZZZ.gms Start 10/14/24 15:19:40 47.6.0 c2de9d6d WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\47\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms"
+    PageSize 0
+    ScrDir "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\225a\"
+    SysDir C:\GAMS\47\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+Licensee: CEE 6410 Water Resources Systems Analysis      G240923|0002AO-GEN
+          Utah State University, Utah Water Research Laboratory     DCE3763
+          C:\Users\adrie\OneDrive\Documents\GAMS\gamslice.txt
+          License Admin: David Rosenberg, david.rosenberg@usu.edu          
+          Other time limited license
+          The evaluation period of the license will expire on Dec 22, 2024
+Processor information: 1 socket(s), 4 core(s), and 8 thread(s) available
+GAMS 47.6.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
+--- Starting compilation
+--- HW 6 ZZZ.gms(1) 2 Mb 2 Errors
+*** Error 140 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unknown symbol
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+--- HW 6 ZZZ.gms(8) 2 Mb 3 Errors
+*** Error 180 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    'variable' expected
+--- HW 6 ZZZ.gms(14) 2 Mb 4 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(21) 2 Mb 5 Errors
+*** Error 342 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Illegal suffix syntax - has to start with a letter
+--- HW 6 ZZZ.gms(22) 2 Mb 6 Errors
+*** Error 342 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Illegal suffix syntax - has to start with a letter
+--- HW 6 ZZZ.gms(25) 2 Mb 8 Errors
+*** Error 110 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Too many decimal points in a number
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+--- HW 6 ZZZ.gms(28) 3 Mb 12 Errors
+*** Error 160 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unique element expected - a starting symbol was encountered
+       and parsing will continue by entering 'element'.
+       An UNQUOTED element has to start with a letter or digit
+       followed by letters, digits, '+', '-' or '_'. The length
+       is limited to 63 characters. The following words are
+       reserved (starting symbols of a GAMS statement) and cannot
+       be used for UNQUOTED set elements:
+   
+          ABORT, ACRONYM(S), ALIAS, BINARY, DISPLAY, ELSE
+          EQUATION(S), EXECUTE, FILE(S), FOR, FREE, IF, INTEGER, LOOP
+          MODEL(S), NEGATIVE, OPTION(S), PARAMETER(S)
+          POSITIVE, PROCEDURE(S), PUT, PUTCLEAR, PUTCLOSE, PUTHD
+          PUTPAGE, PUTTL, SCALAR(S), SEMICONT, SET(S), SOS1, SOS2
+          TABLE, VARIABLE(S), WHILE
+   
+       QUOTED elements can contain any character. Single and
+       double quotes can be used (starting and ending quote have
+       to match).
+*** Error 220 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Partial overlapping column adjusted
+*** Error 228 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Column dimension has changed
+*** Error 768 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Matching ':' and unordered sets may create unexpected results
+*** Error 221 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Total overlapping column ignored
+--- HW 6 ZZZ.gms(29) 3 Mb 14 Errors
+*** Error 223 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Overlapping row name
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(37) 3 Mb 15 Errors
+*** Error 342 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Illegal suffix syntax - has to start with a letter
+--- HW 6 ZZZ.gms(38) 3 Mb 18 Errors
+*** Error   7 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '(' expected
+*** Error 140 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unknown symbol
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+--- HW 6 ZZZ.gms(42) 3 Mb 36 Errors
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 441 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected TO or DOWNTO. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error 442 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected a ',' or BY. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error  10 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ',' expected
+*** Error   7 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '(' expected
+*** Error 300 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Remaining errors not printed for this line
+--- HW 6 ZZZ.gms(43) 3 Mb 37 Errors
+*** Error 342 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Illegal suffix syntax - has to start with a letter
+--- HW 6 ZZZ.gms(49) 3 Mb 38 Errors
+*** Error 349 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Declaration not allowed inside a LOOP or IF statement
+--- HW 6 ZZZ.gms(50) 3 Mb 42 Errors
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 349 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Declaration not allowed inside a LOOP or IF statement
+*** Error 191 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Closing quote missing
+*** Error 182 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Closing '/' missing in a set, parameter or model statement
+--- HW 6 ZZZ.gms(52) 3 Mb 45 Errors
+*** Error  12 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ';' expected
+*** Error 140 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unknown symbol
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+--- HW 6 ZZZ.gms(54) 3 Mb 47 Errors
+*** Error   8 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ')' expected
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(57) 3 Mb 49 Errors
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 120 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unknown identifier entered as set
+--- HW 6 ZZZ.gms(58) 3 Mb 50 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(66) 3 Mb 51 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(68) 3 Mb 52 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(70) 3 Mb 53 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(74) 3 Mb 54 Errors
+*** Error 362 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Values for domain 2 are unknown - no checking possible
+--- HW 6 ZZZ.gms(75) 3 Mb 58 Errors
+*** Error 170 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Domain violation for element
+*** Error 223 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Overlapping row name
+*** Error   1 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Real number expected
+*** Error 225 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Floating entry ignored
+--- HW 6 ZZZ.gms(76) 3 Mb 62 Errors
+*** Error 170 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Domain violation for element
+*** Error 223 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Overlapping row name
+*** Error   1 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Real number expected
+*** Error 225 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Floating entry ignored
+--- HW 6 ZZZ.gms(77) 3 Mb 63 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(80) 3 Mb 64 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(82) 3 Mb 65 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(84) 3 Mb 67 Errors
+*** Error 362 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Values for domain 2 are unknown - no checking possible
+*** Error 338 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unique element expected - symbol was not an element
+       and the following text will be skipped until a proper
+       symbol is found to recover. Remember that an UNQUOTED
+       element has to start with a letter or digit
+       followed by letters, digits, '+', '-' or '_'. The length
+       is limited to 63 characters. The following words are
+       reserved (starting symbols of a GAMS statement) and cannot
+       be used for UNQUOTED set elements:
+   
+          ABORT, ACRONYM(S), ALIAS, BINARY, DISPLAY, ELSE
+          EQUATION(S), EXECUTE, FILE(S), FOR, FREE, IF, INTEGER, LOOP
+          MODEL(S), NEGATIVE, OPTION(S), PARAMETER(S)
+          POSITIVE, PROCEDURE(S), PUT, PUTCLEAR, PUTCLOSE, PUTHD
+          PUTPAGE, PUTTL, SCALAR(S), SEMICONT, SET(S), SOS1, SOS2
+          TABLE, VARIABLE(S), WHILE
+   
+       QUOTED elements can contain any character. Single and
+       double quotes can be used (starting and ending quote have
+       to match).
+--- HW 6 ZZZ.gms(85) 3 Mb 68 Errors
+*** Error 220 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Partial overlapping column adjusted
+--- HW 6 ZZZ.gms(86) 3 Mb 70 Errors
+*** Error 170 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Domain violation for element
+*** Error   1 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Real number expected
+--- HW 6 ZZZ.gms(87) 3 Mb 71 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(88) 3 Mb 73 Errors
+*** Error   7 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '(' expected
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+--- HW 6 ZZZ.gms(90) 3 Mb 82 Errors
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 441 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected TO or DOWNTO. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error 442 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected a ',' or BY. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error  10 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ',' expected
+*** Error 349 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Declaration not allowed inside a LOOP or IF statement
+--- HW 6 ZZZ.gms(91) 3 Mb 84 Errors
+*** Error   8 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ')' expected
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(92) 3 Mb 85 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(94) 3 Mb 86 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(101) 3 Mb 87 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(104) 3 Mb 88 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(107) 3 Mb 89 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(108) 3 Mb 90 Errors
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+--- HW 6 ZZZ.gms(110) 3 Mb 91 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(119) 3 Mb 92 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(123) 3 Mb 93 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(124) 3 Mb 94 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(126) 3 Mb 95 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(128) 3 Mb 96 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(129) 3 Mb 97 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(130) 3 Mb 98 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(134) 3 Mb 99 Errors
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+--- HW 6 ZZZ.gms(135) 3 Mb 101 Errors
+*** Error 195 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Symbol redefined with a different type
+*** Error  96 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Blank needed between identifier and text
+      (-or- illegal character in identifier)
+      (-or- check for missing ';' on previous line)
+--- HW 6 ZZZ.gms(136) 3 Mb 102 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(142) 3 Mb 120 Errors
+*** Error   7 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '(' expected
+*** Error 140 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unknown symbol
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 441 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected TO or DOWNTO. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error 300 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Remaining errors not printed for this line
+--- HW 6 ZZZ.gms(143) 3 Mb 133 Errors
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 441 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected TO or DOWNTO. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error 140 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unknown symbol
+*** Error   8 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ')' expected
+*** Error 442 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected a ',' or BY. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error  10 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ',' expected
+*** Error 300 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Remaining errors not printed for this line
+--- HW 6 ZZZ.gms(145) 3 Mb 150 Errors
+*** Error   7 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '(' expected
+*** Error 140 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unknown symbol
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 441 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected TO or DOWNTO. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error 300 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Remaining errors not printed for this line
+--- HW 6 ZZZ.gms(146) 3 Mb 154 Errors
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+*** Error  36 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+*** Error 119 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Number (primary) expected
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+--- HW 6 ZZZ.gms(147) 3 Mb 163 Errors
+*** Error 441 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected TO or DOWNTO. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error 141 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement. Suppress with $onImplicitAssign.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 148 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+*** Error 133 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Incompatible operands for addition
+*** Error 154 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Set for 'ord' is not controlled
+*** Error 440 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expression has to be real valued
+*** Error 442 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Expected a ',' or BY. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error  10 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ',' expected
+*** Error   8 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ')' expected
+--- HW 6 ZZZ.gms(148) 3 Mb 165 Errors
+*** Error   8 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    ')' expected
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(150) 3 Mb 166 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(151) 3 Mb 167 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(152) 3 Mb 169 Errors
+*** Error 230 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier is not a model
+*** Error 812 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Solve keys expected - USING MAX/MIN SCENARIO
+--- HW 6 ZZZ.gms(153) 3 Mb 172 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+*** Error 140 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unknown symbol
+*** Error 257 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Solve statement not checked because of previous errors
+--- HW 6 ZZZ.gms(154) 3 Mb 173 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(155) 3 Mb 176 Errors
+*** Error 141 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement. Suppress with $onImplicitAssign.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 141 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement. Suppress with $onImplicitAssign.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 141 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement. Suppress with $onImplicitAssign.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+--- HW 6 ZZZ.gms(156) 3 Mb 177 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(158) 3 Mb 178 Errors
+*** Error   2 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Identifier expected
+--- HW 6 ZZZ.gms(159) 3 Mb 179 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(160) 3 Mb 180 Errors
+*** Error 409 in C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 ZZZ.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- HW 6 ZZZ.gms(160) 3 Mb 180 Errors
+*** Status: Compilation error(s)
+--- Job HW 6 ZZZ.gms Stop 10/14/24 15:19:40 elapsed 0:00:00.035

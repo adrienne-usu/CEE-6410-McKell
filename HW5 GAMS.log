@@ -1,0 +1,137 @@
+--- Job HW5 GAMS.gms Start 10/22/24 16:37:50 47.6.0 c2de9d6d WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\47\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW5 GAMS.gms"
+    PageSize 0
+    ScrDir "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\225a\"
+    SysDir C:\GAMS\47\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+Licensee: CEE 6410 Water Resources Systems Analysis      G240923|0002AO-GEN
+          Utah State University, Utah Water Research Laboratory     DCE3763
+          C:\Users\adrie\OneDrive\Documents\GAMS\gamslice.txt
+          License Admin: David Rosenberg, david.rosenberg@usu.edu          
+          Other time limited license
+          The evaluation period of the license will expire on Dec 22, 2024
+Processor information: 1 socket(s), 4 core(s), and 8 thread(s) available
+GAMS 47.6.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
+--- Starting compilation
+--- HW5 GAMS.gms(109) 3 Mb
+--- Starting execution: elapsed 0:00:00.029
+--- HW5 GAMS.gms(107) 4 Mb
+--- Generating LP model ReservoirOperation
+--- HW5 GAMS.gms(108) 4 Mb
+---   26 rows  25 columns  67 non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.000E+00, 9.000E+00] - Zero values observed as well
+--- Bound     [min, max] : [        NA,        NA] - Zero values observed as well
+--- Matrix    [min, max] : [ 1.000E+00, 2.200E+00]
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.253
+
+IBM ILOG CPLEX   47.6.0 c2de9d6d Sep 12, 2024          WEI x86 64bit/MS Window
+
+*** This solver runs with a community license.
+
+Reading parameter(s) from "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\cplex.opt"
+>>  objrng all
+>>  rhsrng all
+Finished reading from "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\cplex.opt"
+
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
+CPXPARAM_Advance                                 0
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+Tried aggregator 1 time.
+LP Presolve eliminated 13 rows and 1 columns.
+Reduced LP has 12 rows, 24 columns, and 41 nonzeros.
+Presolve time = 0.00 sec. (0.02 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual infeasibility =             8.299999
+Iteration:     9   Dual objective     =            66.200000
+
+--- LP status (1): optimal.
+--- Cplex Time: 0.02sec (det. 0.05 ticks)
+
+--- Start ranging / sensitivity analysis...
+--- Right-hand-side ranging...
+
+EQUATION NAME                            LOWER           CURRENT             UPPER
+-------------                            -----           -------             -----
+objective_function                        -INF                NA              +INF   
+mass_balance_1                               6                 7                 9   
+mass_balance(2)                              1                 2                 4   
+mass_balance(3)                              2                 3                 5   
+mass_balance(4)                              3                 4                 6   
+mass_balance(5)                              2                 3                 5   
+mass_balance(6)                              1                 2                 4   
+storage_limit(1)                             6                 9              +INF   
+storage_limit(2)                             7                 9              +INF   
+storage_limit(3)                             8                 9              +INF   
+storage_limit(4)                             8                 9              +INF   
+storage_limit(5)                             7                 9              +INF   
+storage_limit(6)                             5                 9              +INF   
+turbine_capacity_limit(1)                    1                 4              +INF   
+turbine_capacity_limit(2)                    1                 4              +INF   
+turbine_capacity_limit(3)                    2                 4              +INF   
+turbine_capacity_limit(4)                    2                 4                 5   
+turbine_capacity_limit(5)                    2                 4                 5   
+turbine_capacity_limit(6)                    2                 4                 5   
+end_storage_constraint                       3                 5                 6   
+river_flow_constraint(1)                     0                 1                 2   
+river_flow_constraint(2)                     0                 1                 2   
+river_flow_constraint(3)                  -INF                 1                 2   
+river_flow_constraint(4)                  -INF                 1                 4   
+river_flow_constraint(5)                  -INF                 1                 4   
+river_flow_constraint(6)                  -INF                 1                 4   
+
+--- Objective ranging...
+
+VARIABLE NAME                            LOWER           CURRENT             UPPER
+-------------                            -----           -------             -----
+storage(1)                                -1.1                 0              +INF   
+storage(2)                                -0.8                 0              +INF   
+storage(3)                                -0.2                 0               1.5   
+storage(4)                                -0.5                 0               1.5   
+storage(5)                                -0.5                 0               1.5   
+storage(6)                                -INF                 0               3.7   
+release_hp(1)                                0               1.6               2.7   
+release_hp(2)                     -2.22045e-16               1.7               2.5   
+release_hp(3)                                1               1.8                 2   
+release_hp(4)                              1.7               1.9              +INF   
+release_hp(5)                              1.5                 2              +INF   
+release_hp(6)                              1.5                 2              +INF   
+release_irr(1)                            -INF                 1               2.1   
+release_irr(2)                            -INF               1.2                 2   
+release_irr(3)                             1.1               1.9               2.1   
+release_irr(4)                             1.8                 2               3.7   
+release_irr(5)                             1.7               2.2               3.7   
+release_irr(6)                             1.7               2.2               3.7   
+spill(1)                                  -INF                 0               1.6   
+spill(2)                                  -INF                 0               1.7   
+spill(3)                                  -INF                 0               1.8   
+spill(4)                                  -INF                 0               1.7   
+spill(5)                                  -INF                 0               1.5   
+spill(6)                                  -INF                 0               1.5   
+objective                                 -INF                NA              +INF   
+
+
+Optimal solution found
+Objective:           51.600000
+
+--- Reading solution for model ReservoirOperation
+*** Status: Normal completion
+--- Job HW5 GAMS.gms Stop 10/22/24 16:37:50 elapsed 0:00:00.615
+Cannot delete directory: 225a

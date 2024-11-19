@@ -1,0 +1,154 @@
+
+--- Job HW 6 Reservoir.gms Start 10/14/24 16:13:37 47.6.0 c2de9d6d WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\47\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 Reservoir.gms"
+    PageSize 0
+    ScrDir "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\225a\"
+    SysDir C:\GAMS\47\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+Licensee: CEE 6410 Water Resources Systems Analysis      G240923|0002AO-GEN
+          Utah State University, Utah Water Research Laboratory     DCE3763
+          C:\Users\adrie\OneDrive\Documents\GAMS\gamslice.txt
+          License Admin: David Rosenberg, david.rosenberg@usu.edu          
+          Other time limited license
+          The evaluation period of the license will expire on Dec 22, 2024
+Processor information: 1 socket(s), 4 core(s), and 8 thread(s) available
+GAMS 47.6.0   Copyright (C) 1987-2024 GAMS Development. All rights reserved
+--- Starting compilation
+--- HW 6 Reservoir.gms(106) 3 Mb
+--- Starting execution: elapsed 0:00:00.018
+--- HW 6 Reservoir.gms(59) 4 Mb
+--- Generating MIP model ResDesign
+--- HW 6 Reservoir.gms(99) 4 Mb
+---   13 rows  16 columns  42 non-zeroes
+---   6 discrete-columns
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 1.000E+00, 6.000E+02] - Zero values observed as well
+--- Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
+--- Matrix    [min, max] : [ 3.333E-01, 1.000E+04]
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.029
+
+IBM ILOG CPLEX   47.6.0 c2de9d6d Sep 12, 2024          WEI x86 64bit/MS Window
+
+*** This solver runs with a community license.
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
+CPXPARAM_Advance                                 0
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+Generic callback                                 0x50
+Found incumbent of value 0.000000 after 0.00 sec. (0.00 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 1 rows and 4 columns.
+Reduced MIP has 11 rows, 12 columns, and 31 nonzeros.
+Reduced MIP has 3 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.02 ticks)
+Probing fixed 0 vars, tightened 7 bounds.
+Probing time = 0.00 sec. (0.00 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 11 rows, 12 columns, and 31 nonzeros.
+Reduced MIP has 3 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.02 ticks)
+Probing time = 0.00 sec. (0.00 ticks)
+Clique table members: 1.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Parallel mode: deterministic, using up to 2 threads for parallel tasks at root LP.
+Tried aggregator 1 time.
+No LP presolve or aggregator reductions.
+Presolve time = 0.00 sec. (0.00 ticks)
+Initializing dual steep norms . . .
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1          122120.000000                   AREA AreaToSupply(s2) slack
+     2          122120.000000              X(res,s2)               RREL(s2)
+     3          119200.000000              X(pum,s2)   RivMassBal(s2) slack
+     4          107736.666667            I(res,lev2) AreaToSupply(s1) slack
+     5          107423.809524              X(pum,s1)   RivMassBal(s1) slack
+     6          100151.082251            I(pum,lev1) PumpCapacity(s2) slack
+     7           98493.939394   RivMassBal(s1) slack  ResCapacity(s1) slack
+Root relaxation solution time = 0.00 sec. (0.02 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                            0.0000   130150.0000              --- 
+Found incumbent of value 0.000000 after 0.00 sec. (0.08 ticks)
+*     0+    0                        76250.0000   130150.0000            70.69%
+Found incumbent of value 76250.000000 after 0.00 sec. (0.08 ticks)
+      0     0    98493.9394     1    76250.0000    98493.9394        7   29.17%
+*     0+    0                        97766.6667    98493.9394             0.74%
+Found incumbent of value 97766.666667 after 0.00 sec. (0.08 ticks)
+      0     0        cutoff          97766.6667                      7     --- 
+Elapsed time = 0.03 sec. (0.11 ticks, tree = 0.01 MB)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (0.11 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (0.11 ticks)
+
+--- MIP status (101): integer optimal solution.
+--- Cplex Time: 0.03sec (det. 0.11 ticks)
+
+--- Returning a primal only solution to GAMS (marginals all set to NA).
+--- Fixing integer variables and solving final LP...
+
+Version identifier: 22.1.1.0 | 2022-11-27 | 9160aff4d
+CPXPARAM_Advance                                 2
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+Tried aggregator 1 time.
+LP Presolve eliminated 6 rows and 7 columns.
+Reduced LP has 6 rows, 9 columns, and 17 nonzeros.
+Presolve time = 0.00 sec. (0.01 ticks)
+Initializing dual steep norms . . .
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1  I          179.999998                   AREA AreaToSupply(s2) slack
+     2  I           99.999998              X(pum,s2)   RivMassBal(s2) slack
+     3  I            0.000000              STORE(s1)              X(res,s1)
+     4          110407.500000              X(res,s1) AreaToSupply(s1) slack
+     5           97766.666667              X(pum,s1)              STORE(s1)
+
+--- Fixed MIP status (1): optimal.
+--- Cplex Time: 0.00sec (det. 0.02 ticks)
+
+
+Proven optimal solution
+MIP Solution:        97766.666667    (7 iterations, 0 nodes)
+Final Solve:         97766.666667    (5 iterations)
+
+Best possible:       97766.666667
+Absolute gap:            0.000000
+Relative gap:            0.000000
+
+--- Reading solution for model ResDesign
+--- Executing after solve: elapsed 0:00:00.191
+--- HW 6 Reservoir.gms(104) 4 Mb
+--- GDX File (execute_unload) C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW 6 Reservoir.gdx
+--- HW 6 Reservoir.gms(106) 4 Mb
+GDX2XLS          47.6.0 c2de9d6d Sep 12, 2024          WEI x86 64bit/MS Window
+gdx2xls error: Input file not found: C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\HW.gdx
+*** Status: Normal completion
+--- Job HW 6 Reservoir.gms Stop 10/14/24 16:13:37 elapsed 0:00:00.457

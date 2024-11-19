@@ -1,4 +1,4 @@
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 1
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/22/24 16:37:50 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -107,14 +107,15 @@ C o m p i l a t i o n
  104   
  105  * SOLVE
  106  MODEL ReservoirOperation /ALL/;
- 107  SOLVE ReservoirOperation USING LP MAXIMIZING objective;
- 108   
+ 107  ReservoirOperation.optfile = 1;
+ 108  SOLVE ReservoirOperation USING LP MAXIMIZING objective;
+ 109   
 
 
 COMPILATION TIME     =        0.000 SECONDS      3 MB  47.6.0 c2de9d6d WEX-WEI
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 2
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/22/24 16:37:50 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Equation Listing    SOLVE ReservoirOperation Using LP From line 107
+Equation Listing    SOLVE ReservoirOperation Using LP From line 108
 
 
 ---- objective_function  =E=  Objective to maximize economic benefits
@@ -175,9 +176,9 @@ river_flow_constraint(3)..  release_hp(3) - release_irr(3) + spill(3) =G= 1 ; (L
      
 REMAINING 3 ENTRIES SKIPPED
 
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 3
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/22/24 16:37:50 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Column Listing      SOLVE ReservoirOperation Using LP From line 107
+Column Listing      SOLVE ReservoirOperation Using LP From line 108
 
 
 ---- storage  * Reservoir storage at end of month t (units)
@@ -271,9 +272,9 @@ objective
                 (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
         1       objective_function
 
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 4
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/22/24 16:37:50 Page 4
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Range Statistics    SOLVE ReservoirOperation Using LP From line 107
+Range Statistics    SOLVE ReservoirOperation Using LP From line 108
 
 
 RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
@@ -282,9 +283,9 @@ RHS       [min, max] : [ 1.000E+00, 9.000E+00] - Zero values observed as well
 Bound     [min, max] : [        NA,        NA] - Zero values observed as well
 Matrix    [min, max] : [ 1.000E+00, 2.200E+00]
 
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 5
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/22/24 16:37:50 Page 5
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Model Statistics    SOLVE ReservoirOperation Using LP From line 107
+Model Statistics    SOLVE ReservoirOperation Using LP From line 108
 
 
 MODEL STATISTICS
@@ -294,25 +295,31 @@ BLOCKS OF VARIABLES           5     SINGLE VARIABLES           25
 NON ZERO ELEMENTS            67
 
 
-GENERATION TIME      =        0.015 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/09/24 14:48:37 Page 6
+GENERATION TIME      =        0.218 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 10/22/24 16:37:50 Page 6
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Solution Report     SOLVE ReservoirOperation Using LP From line 107
+Solution Report     SOLVE ReservoirOperation Using LP From line 108
 
 
                S O L V E      S U M M A R Y
 
      MODEL   ReservoirOperation   OBJECTIVE  objective
      TYPE    LP                   DIRECTION  MAXIMIZE
-     SOLVER  CPLEX                FROM LINE  107
+     SOLVER  CPLEX                FROM LINE  108
 
 **** SOLVER STATUS     1 Normal Completion
 **** MODEL STATUS      1 Optimal
 **** OBJECTIVE VALUE               51.6000
 
- RESOURCE USAGE, LIMIT          0.000 10000000000.000
+ RESOURCE USAGE, LIMIT          0.031 10000000000.000
  ITERATION COUNT, LIMIT        16    2147483647
 *** This solver runs with a community license.
+
+Reading parameter(s) from "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\cplex.opt"
+>>  objrng all
+>>  rhsrng all
+Finished reading from "C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\cplex.opt"
+
 --- GMO setup time: 0.00s
 --- GMO memory 0.50 Mb (peak 0.50 Mb)
 --- Dictionary memory 0.00 Mb
@@ -321,7 +328,69 @@ Solution Report     SOLVE ReservoirOperation Using LP From line 107
 
 
 --- LP status (1): optimal.
---- Cplex Time: 0.00sec (det. 0.05 ticks)
+--- Cplex Time: 0.02sec (det. 0.05 ticks)
+
+--- Start ranging / sensitivity analysis...
+--- Right-hand-side ranging...
+
+EQUATION NAME                            LOWER           CURRENT             UPPER
+-------------                            -----           -------             -----
+objective_function                        -INF                NA              +INF   =C
+mass_balance_1                               6                 7                 9   =C
+mass_balance(2)                              1                 2                 4   =C
+mass_balance(3)                              2                 3                 5   =C
+mass_balance(4)                              3                 4                 6   =C
+mass_balance(5)                              2                 3                 5   =C
+mass_balance(6)                              1                 2                 4   =C
+storage_limit(1)                             6                 9              +INF   =C
+storage_limit(2)                             7                 9              +INF   =C
+storage_limit(3)                             8                 9              +INF   =C
+storage_limit(4)                             8                 9              +INF   =C
+storage_limit(5)                             7                 9              +INF   =C
+storage_limit(6)                             5                 9              +INF   =C
+turbine_capacity_limit(1)                    1                 4              +INF   =C
+turbine_capacity_limit(2)                    1                 4              +INF   =C
+turbine_capacity_limit(3)                    2                 4              +INF   =C
+turbine_capacity_limit(4)                    2                 4                 5   =C
+turbine_capacity_limit(5)                    2                 4                 5   =C
+turbine_capacity_limit(6)                    2                 4                 5   =C
+end_storage_constraint                       3                 5                 6   =C
+river_flow_constraint(1)                     0                 1                 2   =C
+river_flow_constraint(2)                     0                 1                 2   =C
+river_flow_constraint(3)                  -INF                 1                 2   =C
+river_flow_constraint(4)                  -INF                 1                 4   =C
+river_flow_constraint(5)                  -INF                 1                 4   =C
+river_flow_constraint(6)                  -INF                 1                 4   =C
+
+--- Objective ranging...
+
+VARIABLE NAME                            LOWER           CURRENT             UPPER
+-------------                            -----           -------             -----
+storage(1)                                -1.1                 0              +INF   =C
+storage(2)                                -0.8                 0              +INF   =C
+storage(3)                                -0.2                 0               1.5   =C
+storage(4)                                -0.5                 0               1.5   =C
+storage(5)                                -0.5                 0               1.5   =C
+storage(6)                                -INF                 0               3.7   =C
+release_hp(1)                                0               1.6               2.7   =C
+release_hp(2)                     -2.22045e-16               1.7               2.5   =C
+release_hp(3)                                1               1.8                 2   =C
+release_hp(4)                              1.7               1.9              +INF   =C
+release_hp(5)                              1.5                 2              +INF   =C
+release_hp(6)                              1.5                 2              +INF   =C
+release_irr(1)                            -INF                 1               2.1   =C
+release_irr(2)                            -INF               1.2                 2   =C
+release_irr(3)                             1.1               1.9               2.1   =C
+release_irr(4)                             1.8                 2               3.7   =C
+release_irr(5)                             1.7               2.2               3.7   =C
+release_irr(6)                             1.7               2.2               3.7   =C
+spill(1)                                  -INF                 0               1.6   =C
+spill(2)                                  -INF                 0               1.7   =C
+spill(3)                                  -INF                 0               1.8   =C
+spill(4)                                  -INF                 0               1.7   =C
+spill(5)                                  -INF                 0               1.5   =C
+spill(6)                                  -INF                 0               1.5   =C
+objective                                 -INF                NA              +INF   =C
 
 
 Optimal solution found
@@ -441,7 +510,7 @@ Objective:           51.600000
                              0  UNBOUNDED
 
 
-EXECUTION TIME       =        0.109 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+EXECUTION TIME       =        0.578 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
 
 
 USER: CEE 6410 Water Resources Systems Analysis      G240923|0002AO-GEN
