@@ -31,13 +31,13 @@ Parameters
         E.remove 99999999, E.passage 99999999/
         
     Length(r) Length of each reach between sites
-        /AB 10,
-        BC  20,
-        CD  30,
-        DE  40/
+        /AB 40,
+        BC  6,
+        CD  50,
+        DE  70/
     
         
-    Budget total available budget /1000/;
+    Budget total available budget /1500/;
         
 Table connectivity(j,r) what choices correspond to each reach
     AB  BC  CD  DE
@@ -67,34 +67,38 @@ totalcost
 
 Binary Variables
 
-B(i,f)    Which passage was chosen
-X(j)    Which decisions is chosen
+B(i,f)          Which passage was chosen
+X(j)            Which decisions is chosen
+ModifySite(i)   a site is modified if there is either removal or fish passage
 ;
 
 
 Equations
-Objective
-CostConstraint
-MExclusive
-PassageExclusive(i)
+Objective           sums the total connected length of restored habitat
+CostConstraint      the sum of the cost of the choice must be less than the budget
+MExclusive          Only one connectivity choice can be chosed
+PassageExclusive(i) For each site only dam removal or fish passage can be chosn
 ReachConnect(j)
+ActionAtSite(i)    
 ;
 
 Objective..
             Ltotal =e= sum((j,r), connectivity(j,r)*Length(r)*X(j));
 
 CostConstraint..
-            totalcost = sum((i,f), sum(j,conex(j,i)* Cost(i, f) * B(i, f))) =l= Budget;
+             sum((i,f), Cost(i, f) * B(i, f)) =l= Budget;
 
-ReachConnect(j).. 
-            X(j) =l= sum((i), B(i, "remove") + B(i, "passage"));
+ReachConnect(j)..  
+            X(j) =l= sum(i, conex(j, i) * ModifySite(i));
 
 MExclusive..
             sum(j,X(j)) =l= 1;
     
 PassageExclusive(i)..
-            sum(f, B(i, f)) =l= 1;    
-    
+            sum(f, B(i, f)) =l= 1;
+            
+ActionAtSite(i) ..
+            ModifySite(i) =L= sum(f, B(i,f));
 
 
     
