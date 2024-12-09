@@ -15,7 +15,7 @@ r set for between sites
     /AB, BC, CD, DE/
     
 j set for choices 
-    /c1, c2, c3 ,c4, c5, c6/
+    /c1, c2, c3 ,c4, c5, c6, c7/
     
 f  set for decision
     /remove, passage/;
@@ -37,7 +37,7 @@ Parameters
         DE  70/
     
         
-    Budget total available budget /2500/;
+    Budget total available budget /6000/;
         
 Table connectivity(j,r) what choices correspond to each reach
     AB  BC  CD  DE
@@ -47,6 +47,7 @@ c3  1   1   1   1
 c4      1   1   
 c5      1   1   1
 c6          1   1
+c7  1   1   1   1
 ;
 
 Table conex(j,i) which site is removed or has passage added for each choice
@@ -57,6 +58,7 @@ c3  1   1   1
 c4      1
 c5      1   1
 c6          1
+c7  1       1
 
 ;
 variables
