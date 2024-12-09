@@ -1,0 +1,130 @@
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/09/24 12:00:48 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+      Adrienne McKell    (12/2024)
+      adriennemckell@gmail.com
+       
+      Developed for CEE 6410 at Utah State University
+       
+   8   
+   9  sets
+  10   
+  11  i set for sites
+  12      /A "rainbow",B "soda",C "grace",D "oneida",E "cutler"/
+  13   
+  14  r set for between sites
+  15      /AB, BC, CD, DE/
+  16   
+  17  j set for choices
+  18      /c1, c2, c3 ,c4, c5, c6/
+  19   
+  20  f  set for decision
+  21      /remove, passage/;
+  22   
+  23  Alias (i,k)
+  24   
+  25  Parameters
+  26      Cost(i,f) Cost of removing dam or adding fish passage at each site
+  27          /A.remove 9999999, A.passage 250
+  28          B.remove 1000,     B.passage 500
+  29          C.remove 2000,     C.passage 1000
+  30          D.remove 3000,     D.passage 1500
+  31          E.remove 99999999, E.passage 99999999/
+  32   
+  33      Length(r) Length of each reach between sites
+  34          /AB 10,
+  35          BC  20,
+  36          CD  30,
+  37          DE  40/
+  38   
+  39   
+  40      Budget total available budget /1000/;
+  41   
+  42  Table connectivity(j,r) what choices correspond to each reach
+  43      AB  BC  CD  DE
+  44  c1  1   1
+  45  c2  1   1   1
+  46  c3  1   1   1   1
+  47  c4      1   1
+  48  c5      1   1   1
+  49  c6          1   1
+  50  ;
+  51   
+  52  Table conex(j,i) which site is removed or has passage added for each choice
+  53      A   B   C   D   E
+  54  c1      1
+  55  c2      1   1
+  56  c3      1   1   1
+  57  c4          1
+  58  c5          1   1
+  59  c6              1
+  60   
+  61  ;
+  62  variables
+  63  linkexist(j,i)
+  64  Ltotal
+  65  totalcost
+  66  ;
+  67   
+  68  Binary Variables
+  69   
+  70  B(i,f)    Which passage was chosen
+  71  X(j)    Which decisions is chosen
+  72  ;
+  73   
+  74   
+  75  Equations
+  76  Objective
+  77  CostConstraint
+  78  MExclusive
+  79  PassageExclusive(i)
+  80  ReachConnect(j)
+  81  ;
+  82   
+  83  Objective..
+  84              Ltotal =e= sum((j,r), connectivity(j,r)*Length(r)*X(j));
+  85   
+  86  CostConstraint..
+  87              totalcost = sum((i,f), sum(j,conex(j,i)* Cost(i, f) * B(i, f))) =l= Budget;
+  88   
+  89  ReachConnect(j)..
+  90              X(j) =l= sum((i), B(i, "remove") + B(i, "passage"));
+  91   
+  92  MExclusive..
+  93              sum(j,X(j)) =l= 1;
+  94   
+  95  PassageExclusive(i)..
+  96              sum(f, B(i, f)) =l= 1;
+  97   
+  98   
+  99   
+ 100   
+ 101  Model FishPassage /all/;
+ 102  Solve FishPassage using mip maximizing Ltotal;
+****                                               $57,256
+****  57  Endogenous relational operations require model type "dnlp"
+**** 256  Error(s) in analyzing solve statement.
+**** The following MIP errors were detected in model FishPassage:
+****  57 equation CostConstraint.. VAR operands relational or boolean
+ 103   
+ 104  Display Ltotal.l, X.l, B.l;
+
+**** 2 ERROR(S)   0 WARNING(S)
+
+
+COMPILATION TIME     =        0.015 SECONDS      3 MB  47.6.0 c2de9d6d WEX-WEI
+
+
+USER: CEE 6410 Water Resources Systems Analysis      G241025|0002AO-GEN
+      Utah State University, Utah Water Research Laboratory     DCE3763
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\Semester Project\SemesterProject.gms
+Output     C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\Semester Project\SemesterProject.lst
+
+**** USER ERROR(S) ENCOUNTERED
