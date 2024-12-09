@@ -37,7 +37,7 @@ Parameters
         DE  70/
     
         
-    Budget total available budget /1500/;
+    Budget total available budget /2500/;
         
 Table connectivity(j,r) what choices correspond to each reach
     AB  BC  CD  DE
@@ -50,13 +50,13 @@ c6          1   1
 ;
 
 Table conex(j,i) which site is removed or has passage added for each choice
-    A   B   C   D   E
-c1      1
-c2      1   1
-c3      1   1   1
-c4          1
-c5          1   1
-c6              1
+    B   C   D   
+c1  1
+c2  1   1
+c3  1   1   1
+c4      1
+c5      1   1
+c6          1
 
 ;
 variables
@@ -78,8 +78,9 @@ Objective           sums the total connected length of restored habitat
 CostConstraint      the sum of the cost of the choice must be less than the budget
 MExclusive          Only one connectivity choice can be chosed
 PassageExclusive(i) For each site only dam removal or fish passage can be chosn
-ReachConnect(j)
-ActionAtSite(i)    
+SingleChoice
+ActionAtSite(i)
+LinkChoice(j)    
 ;
 
 Objective..
@@ -87,9 +88,11 @@ Objective..
 
 CostConstraint..
              sum((i,f), Cost(i, f) * B(i, f)) =l= Budget;
+LinkChoice(j)..
+            sum(i, (conex(j,i) * ModifySite(i))) =G= sum(i, conex(j,i)) * X(j);
 
-ReachConnect(j)..  
-            X(j) =l= sum(i, conex(j, i) * ModifySite(i));
+SingleChoice..
+            sum(j,X(j)) =e= 1;
 
 MExclusive..
             sum(j,X(j)) =l= 1;
