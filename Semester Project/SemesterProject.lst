@@ -1,4 +1,4 @@
-GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/09/24 12:00:48 Page 1
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/10/24 14:54:38 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -6,115 +6,334 @@ C o m p i l a t i o n
       Adrienne McKell    (12/2024)
       adriennemckell@gmail.com
        
-      Developed for CEE 6410 at Utah State University
+      Developed for my semester project for CEE 6410 at Utah State University
        
-   8   
-   9  sets
-  10   
-  11  i set for sites
-  12      /A "rainbow",B "soda",C "grace",D "oneida",E "cutler"/
+      This model optimizes fish habitat restoration by deciding which sites to modify 
+      (either by dam removal or adding fish passage) while staying within a budget constraint.
+      The goal is to maximize the total connected length of restored habitat along the Bear River.
+       
+      See Final Report in repository for further details and background
   13   
-  14  r set for between sites
-  15      /AB, BC, CD, DE/
+  14  * DEFINE the SETS
+  15  sets
   16   
-  17  j set for choices
-  18      /c1, c2, c3 ,c4, c5, c6/
+  17  i set for sites (inlcudes the project endcap sites A and E)
+  18      /A "rainbow",B "soda",C "grace",D "oneida",E "cutler"/
   19   
-  20  f  set for decision
-  21      /remove, passage/;
+  20  r reaches between sites
+  21      /AB, BC, CD, DE/
   22   
-  23  Alias (i,k)
-  24   
-  25  Parameters
-  26      Cost(i,f) Cost of removing dam or adding fish passage at each site
-  27          /A.remove 9999999, A.passage 250
-  28          B.remove 1000,     B.passage 500
-  29          C.remove 2000,     C.passage 1000
-  30          D.remove 3000,     D.passage 1500
-  31          E.remove 99999999, E.passage 99999999/
-  32   
-  33      Length(r) Length of each reach between sites
-  34          /AB 10,
-  35          BC  20,
-  36          CD  30,
-  37          DE  40/
+  23  j choices of connectivity options
+  24      /c1, c2, c3 ,c4, c5, c6, c7/
+  25   
+  26  f  decision options for each site (remove dam or add fish passage)
+  27      /remove, passage/;
+  28   
+  29  Alias (i,k)
+  30  *Alias allow comparing or linking the same set elements
+  31   
+  32  * DEFINE input data
+  33  Parameters
+  34      Cost(i,f) Cost of removing dam or adding fish passage at each site ($)
+  35          /B.remove 1000,     B.passage 500
+  36          C.remove  2000,     C.passage 1000
+  37          D.remove  3000,     D.passage 1500/
   38   
-  39   
-  40      Budget total available budget /1000/;
-  41   
-  42  Table connectivity(j,r) what choices correspond to each reach
-  43      AB  BC  CD  DE
-  44  c1  1   1
-  45  c2  1   1   1
-  46  c3  1   1   1   1
-  47  c4      1   1
-  48  c5      1   1   1
-  49  c6          1   1
-  50  ;
+  39  * A and E are left out because they are the endcaps of the reach
+  40  * and not being evaluated for connectivity. Additionally, these prices are dummy data.
+  41  * To get more accurate prices an analysis of each site would have to be done
+  42   
+  43   
+  44      Length(r) Length of each reach between sites (miles)
+  45          /AB 40,
+  46          BC  6,
+  47          CD  50,
+  48          DE  70/
+  49  * these lengths are best estimates of river miles using Google Earth Pro
+  50   
   51   
-  52  Table conex(j,i) which site is removed or has passage added for each choice
-  53      A   B   C   D   E
-  54  c1      1
-  55  c2      1   1
-  56  c3      1   1   1
-  57  c4          1
-  58  c5          1   1
-  59  c6              1
-  60   
-  61  ;
-  62  variables
-  63  linkexist(j,i)
-  64  Ltotal
-  65  totalcost
-  66  ;
-  67   
-  68  Binary Variables
-  69   
-  70  B(i,f)    Which passage was chosen
-  71  X(j)    Which decisions is chosen
-  72  ;
-  73   
-  74   
-  75  Equations
-  76  Objective
-  77  CostConstraint
-  78  MExclusive
-  79  PassageExclusive(i)
-  80  ReachConnect(j)
-  81  ;
-  82   
-  83  Objective..
-  84              Ltotal =e= sum((j,r), connectivity(j,r)*Length(r)*X(j));
-  85   
-  86  CostConstraint..
-  87              totalcost = sum((i,f), sum(j,conex(j,i)* Cost(i, f) * B(i, f))) =l= Budget;
-  88   
-  89  ReachConnect(j)..
-  90              X(j) =l= sum((i), B(i, "remove") + B(i, "passage"));
+  52      Budget total available budget /250/;
+  53  * this budget is dummy data to match the prices above.
+  54   
+  55  * DEFINE tables with connectivity data
+  56  Table connectivity(j,r) which choice (j) restore connectivity on specific reaches (r)(1= yes 0=no)
+  57      AB  BC  CD  DE
+  58  c1  1   1
+  59  c2  1   1   1
+  60  c3  1   1   1   1
+  61  c4      1   1
+  62  c5      1   1   1
+  63  c6          1   1
+  64  c7  1   1   1   1
+  65  ;
+  66   
+  67  Table conex(j,i) which sites (i) are modified (either removed or passage) for each choice(j)
+  68      B   C   D
+  69  c1  1
+  70  c2  1   1
+  71  c3  1   1   1
+  72  c4      1
+  73  c5      1   1
+  74  c6          1
+  75  c7  1       1
+  76   
+  77  ;
+  78   
+  79  * DEFINE the variables
+  80  variables
+  81  Ltotal          Total connected length of restored habitat: objective to be maximized (miles)
+  82  totalcost       Total cost of the selected modification ($)
+  83  ;
+  84   
+  85  Binary Variables
+  86  B(i,f)          Decision to remove dam or add fish passage at site i
+  87  X(j)            Decision to choose connectivity option j
+  88  ModifySite(i)   Indicates if a site i is modified (either removal or passage)
+  89  ;
+  90   
   91   
-  92  MExclusive..
-  93              sum(j,X(j)) =l= 1;
-  94   
-  95  PassageExclusive(i)..
-  96              sum(f, B(i, f)) =l= 1;
-  97   
-  98   
+  92  Equations
+  93  Objective           Maximize the total connected length of restored habitat
+  94  CostConstraint      Ensure the total cost of the modifications does not exceed the budget
+  95  LinkChoice(j)       Ensure the choice of connectivity option is consistent with site modifications
+  96  SingleChoice        Ensure only one connectivity choice is selected
+  97  PassageExclusive(i) For each site only one type of modification (removal or passage) can be chosen
+  98  ActionAtSite(i)     ModifySite(i) is 1 if there is a modification (removal or passage) at site i
   99   
- 100   
- 101  Model FishPassage /all/;
- 102  Solve FishPassage using mip maximizing Ltotal;
-****                                               $57,256
-****  57  Endogenous relational operations require model type "dnlp"
-**** 256  Error(s) in analyzing solve statement.
-**** The following MIP errors were detected in model FishPassage:
-****  57 equation CostConstraint.. VAR operands relational or boolean
- 103   
- 104  Display Ltotal.l, X.l, B.l;
+ 100  ;
+ 101   
+ 102  Objective..
+ 103              Ltotal =e= sum((j,r), connectivity(j,r)*Length(r)*X(j));
+ 104   
+ 105  CostConstraint..
+ 106               sum((i,f), Cost(i, f) * B(i, f)) =l= Budget;
+ 107  LinkChoice(j)..
+ 108              sum(i, (conex(j,i) * ModifySite(i))) =G= sum(i, conex(j,i)) * X(j);
+ 109   
+ 110  SingleChoice..
+ 111              sum(j,X(j)) =e= 1;
+ 112   
+ 113  PassageExclusive(i)..
+ 114              sum(f, B(i, f)) =l= 1;
+ 115   
+ 116  ActionAtSite(i) ..
+ 117              ModifySite(i) =L= sum(f, B(i,f));
+ 118   
+ 119  *DEFINE the MODEL from the EQUATIONS
+ 120  Model FishPassage /all/;
+ 121   
+ 122  * 6. Solve the Model as an LP (relaxed IP)
+ 123  Solve FishPassage using mip maximizing Ltotal;
+ 124  Display Ltotal.l, X.l, B.l;
+ 125   
+ 126  * Dump all input data and results to a GAMS gdx file
+ 127  Execute_Unload "SemesterProject.gdx";
 
-**** 2 ERROR(S)   0 WARNING(S)
+
+COMPILATION TIME     =        0.016 SECONDS      3 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/10/24 14:54:38 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE FishPassage Using MIP From line 123
 
 
-COMPILATION TIME     =        0.015 SECONDS      3 MB  47.6.0 c2de9d6d WEX-WEI
+---- Objective  =E=  Maximize the total connected length of restored habitat
+
+Objective..  Ltotal - 46*X(c1) - 96*X(c2) - 166*X(c3) - 56*X(c4) - 126*X(c5) - 120*X(c6) - 166*X(c7) =E= 0 ; (LHS = 0)
+     
+
+---- CostConstraint  =L=  Ensure the total cost of the modifications does not exceed the budget
+
+CostConstraint..  1000*B(B,remove) + 500*B(B,passage) + 2000*B(C,remove) + 1000*B(C,passage) + 3000*B(D,remove) + 1500*B(D,passage) =L= 250 ; (LHS = 0)
+     
+
+---- LinkChoice  =G=  Ensure the choice of connectivity option is consistent with site modifications
+
+LinkChoice(c1)..  - X(c1) + ModifySite(B) =G= 0 ; (LHS = 0)
+     
+LinkChoice(c2)..  - 2*X(c2) + ModifySite(B) + ModifySite(C) =G= 0 ; (LHS = 0)
+     
+LinkChoice(c3)..  - 3*X(c3) + ModifySite(B) + ModifySite(C) + ModifySite(D) =G= 0 ; (LHS = 0)
+     
+REMAINING 4 ENTRIES SKIPPED
+
+
+---- SingleChoice  =E=  Ensure only one connectivity choice is selected
+
+SingleChoice..  X(c1) + X(c2) + X(c3) + X(c4) + X(c5) + X(c6) + X(c7) =E= 1 ; (LHS = 0, INFES = 1 ****)
+     
+
+---- PassageExclusive  =L=  For each site only one type of modification (removal or passage) can be chosen
+
+PassageExclusive(A)..  B(A,remove) + B(A,passage) =L= 1 ; (LHS = 0)
+     
+PassageExclusive(B)..  B(B,remove) + B(B,passage) =L= 1 ; (LHS = 0)
+     
+PassageExclusive(C)..  B(C,remove) + B(C,passage) =L= 1 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- ActionAtSite  =L=  ModifySite(i) is 1 if there is a modification (removal or passage) at site i
+
+ActionAtSite(A)..  - B(A,remove) - B(A,passage) + ModifySite(A) =L= 0 ; (LHS = 0)
+     
+ActionAtSite(B)..  - B(B,remove) - B(B,passage) + ModifySite(B) =L= 0 ; (LHS = 0)
+     
+ActionAtSite(C)..  - B(C,remove) - B(C,passage) + ModifySite(C) =L= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/10/24 14:54:38 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE FishPassage Using MIP From line 123
+
+
+---- Ltotal  Total connected length of restored habitat: objective to be maximized (miles)
+
+Ltotal
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       Objective
+
+
+---- B  Decision to remove dam or add fish passage at site i
+
+B(A,remove)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+        1       PassageExclusive(A)
+       -1       ActionAtSite(A)
+
+B(A,passage)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+        1       PassageExclusive(A)
+       -1       ActionAtSite(A)
+
+B(B,remove)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+     1000       CostConstraint
+        1       PassageExclusive(B)
+       -1       ActionAtSite(B)
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- X  Decision to choose connectivity option j
+
+X(c1)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+      -46       Objective
+       -1       LinkChoice(c1)
+        1       SingleChoice
+
+X(c2)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+      -96       Objective
+       -2       LinkChoice(c2)
+        1       SingleChoice
+
+X(c3)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+     -166       Objective
+       -3       LinkChoice(c3)
+        1       SingleChoice
+
+REMAINING 4 ENTRIES SKIPPED
+
+---- ModifySite  Indicates if a site i is modified (either removal or passage)
+
+ModifySite(A)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+        1       ActionAtSite(A)
+
+ModifySite(B)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+        1       LinkChoice(c1)
+        1       LinkChoice(c2)
+        1       LinkChoice(c3)
+        1       LinkChoice(c7)
+        1       ActionAtSite(B)
+
+ModifySite(C)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+        1       LinkChoice(c2)
+        1       LinkChoice(c3)
+        1       LinkChoice(c4)
+        1       LinkChoice(c5)
+        1       ActionAtSite(C)
+
+REMAINING 2 ENTRIES SKIPPED
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/10/24 14:54:38 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Range Statistics    SOLVE FishPassage Using MIP From line 123
+
+
+RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
+
+RHS       [min, max] : [ 1.000E+00, 2.500E+02] - Zero values observed as well
+Bound     [min, max] : [ 1.000E+00, 1.000E+00] - Zero values observed as well
+Matrix    [min, max] : [ 1.000E+00, 3.000E+03]
+
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/10/24 14:54:38 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE FishPassage Using MIP From line 123
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           6     SINGLE EQUATIONS           20
+BLOCKS OF VARIABLES           4     SINGLE VARIABLES           23
+NON ZERO ELEMENTS            65     DISCRETE VARIABLES         22
+
+
+GENERATION TIME      =        0.000 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/10/24 14:54:38 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE FishPassage Using MIP From line 123
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   FishPassage         OBJECTIVE  Ltotal
+     TYPE    MIP                 DIRECTION  MAXIMIZE
+     SOLVER  CPLEX               FROM LINE  123
+
+**** SOLVER STATUS     1 Normal Completion
+**** MODEL STATUS      10 Integer Infeasible
+**** OBJECTIVE VALUE               NA
+
+ RESOURCE USAGE, LIMIT          0.000 10000000000.000
+ ITERATION COUNT, LIMIT         0    2147483647
+*** This solver runs with a community license.
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+
+--- MIP status (103): integer infeasible.
+--- Cplex Time: 0.00sec (det. 0.01 ticks)
+
+--- Problem is integer infeasible
+
+No solution returned
+GAMS 47.6.0  c2de9d6d Sep 12, 2024          WEX-WEI x86 64bit/MS Windows - 12/10/24 14:54:38 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+----    124 VARIABLE Ltotal.L              =        0.000  Total connected length of restored habitat: objective to be maximized (miles)
+
+----    124 VARIABLE X.L  Decision to choose connectivity option j
+
+                      ( ALL       0.000 )
+
+
+----    124 VARIABLE B.L  Decision to remove dam or add fish passage at site i
+
+                      ( ALL       0.000 )
+
+
+
+EXECUTION TIME       =        0.078 SECONDS      4 MB  47.6.0 c2de9d6d WEX-WEI
 
 
 USER: CEE 6410 Water Resources Systems Analysis      G241025|0002AO-GEN
@@ -126,5 +345,3 @@ USER: CEE 6410 Water Resources Systems Analysis      G241025|0002AO-GEN
 
 Input      C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\Semester Project\SemesterProject.gms
 Output     C:\Users\adrie\Dropbox\CEE 3410\CEE-6410-McKell\Semester Project\SemesterProject.lst
-
-**** USER ERROR(S) ENCOUNTERED
